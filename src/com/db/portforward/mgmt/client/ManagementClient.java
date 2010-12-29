@@ -10,16 +10,9 @@ import com.db.portforward.mgmt.SessionManagerMBean;
 import com.db.portforward.utils.ThreadUtils;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import javax.management.MBeanServerConnection;
-import javax.management.MBeanServerInvocationHandler;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import javax.management.*;
+import javax.management.remote.*;
+import org.apache.commons.logging.*;
 
 /**
  *
@@ -33,7 +26,7 @@ public class ManagementClient {
     private JMXConnector jmxc;
     private MBeanServerConnection mbsc;
     
-    void initManagementClient() throws MalformedURLException, IOException{
+    void initManagementClient() throws IOException{
         // Create a JMXMP connector client and
         // connect it to the JMXMP connector server
         log.debug("Create a JMXMP connector client and " +
