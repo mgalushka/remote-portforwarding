@@ -17,7 +17,7 @@ public class PathUtils {
     
     public static File getFile(String path) throws MalformedURLException{
         URL url = new URL("file://" + path);
-        File resultFile = null;
+        File resultFile;
         try {
             resultFile = new File(url.toURI());
         } catch(URISyntaxException e) {
