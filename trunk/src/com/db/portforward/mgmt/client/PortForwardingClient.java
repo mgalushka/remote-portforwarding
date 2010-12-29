@@ -8,20 +8,15 @@ package com.db.portforward.mgmt.client;
 import com.db.portforward.mgmt.SessionManagerMBean;
 import com.db.portforward.mgmt.gui.SimpleDataModel;
 import com.db.portforward.mgmt.gui.SimpleTableView;
+import com.db.portforward.utils.ThreadUtils;
+
 import java.io.IOException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import javax.management.MBeanServerConnection;
-import javax.management.MBeanServerInvocationHandler;
-import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
 import javax.swing.JFrame;
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.enterprisepower.threads.ThreadUtils;
 
 /**
  * @author mgalushka
