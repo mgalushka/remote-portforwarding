@@ -7,6 +7,8 @@ package com.db.portforward.mgmt.client;
 
 import com.db.portforward.config.global.GlobalProperties;
 import com.db.portforward.mgmt.SessionManagerMBean;
+import com.db.portforward.utils.ThreadUtils;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import javax.management.MBeanServerConnection;
@@ -18,7 +20,6 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.enterprisepower.threads.ThreadUtils;
 
 /**
  *

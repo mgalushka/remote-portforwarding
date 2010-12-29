@@ -18,13 +18,14 @@ package org.enterprisepower.net.portforward;
 import com.db.portforward.tracking.Manager;
 import com.db.portforward.tracking.Session;
 import com.db.portforward.tracking.SessionManager;
+import com.db.portforward.utils.ThreadUtils;
+
 import java.net.Socket;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.enterprisepower.io.IOUtils;
 import org.enterprisepower.net.NetUtils;
-import org.enterprisepower.threads.ThreadUtils;
 
 /**
  * 

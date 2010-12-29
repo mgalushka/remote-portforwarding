@@ -17,12 +17,12 @@ package org.enterprisepower.net.portforward;
 
 import com.db.portforward.config.PortForwardRecord;
 import com.db.portforward.tracking.Session;
+import com.db.portforward.utils.ThreadUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import java.net.*;
 import java.io.*;
 import org.enterprisepower.net.NetUtils;
-import org.enterprisepower.threads.ThreadUtils;
 
 /**
  * 
