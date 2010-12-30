@@ -2,12 +2,12 @@ package com.db.portforward.mgmt.client;
 
 import com.db.portforward.mgmt.*;
 import com.db.portforward.mgmt.gui.*;
+import com.db.portforward.utils.ThreadUtils;
 import java.io.IOException;
 import java.util.concurrent.*;
 import javax.swing.JFrame;
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.logging.*;
-import org.enterprisepower.threads.ThreadUtils;
 
 /**
  * @author mgalushka
