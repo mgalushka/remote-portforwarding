@@ -1,11 +1,11 @@
 package com.db.portforward;
 
 import com.db.portforward.config.*;
+import com.db.portforward.utils.ThreadUtils;
 import java.io.IOException;
 import java.util.Collection;
 import org.apache.commons.logging.*;
 import org.enterprisepower.net.portforward.Listener;
-import org.enterprisepower.threads.ThreadUtils;
 
 /**
  *
