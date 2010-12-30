@@ -8,6 +8,8 @@ public final class GlobalConstants {
 
 
     public static final class Client{
+        public static final String REFRESH_FREEQUENCY = "refresh.frequency.seconds";
+
         public static final String JMXMP_HOST = "jmxmp.host";
 //        public static final String JMXMP_HOST = "jmxmp.host";
     }
