@@ -3,7 +3,12 @@ package com.db.portforward.mgmt.client;
 import com.db.portforward.mgmt.*;
 import com.db.portforward.mgmt.gui.*;
 import com.db.portforward.utils.ThreadUtils;
+import com.db.portforward.utils.PathUtils;
+import com.db.portforward.config.global.GlobalProperties;
+import com.db.portforward.config.ConfigurationException;
+
 import java.io.IOException;
+import java.io.File;
 import java.util.concurrent.*;
 import javax.swing.JFrame;
 import javax.swing.table.AbstractTableModel;
@@ -17,9 +22,14 @@ public class PortForwardingClient {
     private static Log log = LogFactory.getLog(PortForwardingClient.class);
     private static final ThreadUtils threadUtils = ThreadUtils.getInstance();
 
+    private static final String CLIENT_PROPERTIES = "client.properties";
+    private static GlobalProperties global;
+
     public static void main(String[] args) throws IOException {
         ManagementClient client = null;
         try {
+
+            global = new GlobalProperties(getClientConfigurationFile());
 
             client = new ManagementClient();
             client.initManagementClient();
@@ -63,6 +73,21 @@ public class PortForwardingClient {
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public static GlobalProperties getGlobalProperties() {
+        return global;
+    }
+
+    private static File getClientConfigurationFile() throws ConfigurationException {
+        try {
+            return PathUtils.getFile(
+                    PathUtils.getCurrentJarFilePath() + File.separator + CLIENT_PROPERTIES
+              );
+        } catch (Exception e) {
+            log.error(e);
+            throw  new ConfigurationException(e);
+        }
     }
 
 
