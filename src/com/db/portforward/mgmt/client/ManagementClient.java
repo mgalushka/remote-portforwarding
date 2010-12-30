@@ -1,29 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.mgmt.client;
 
 import com.db.portforward.config.global.GlobalProperties;
+import static com.db.portforward.config.global.GlobalConstants.*;
+import static com.db.portforward.config.global.GlobalConstants.Client.*;
 import com.db.portforward.mgmt.SessionManagerMBean;
-import com.db.portforward.utils.ThreadUtils;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.MBeanException;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServerConnection;
-import javax.management.MBeanServerInvocationHandler;
-import javax.management.MalformedObjectNameException;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import javax.management.*;
+import javax.management.remote.*;
+import org.apache.commons.logging.*;
 
 /**
  *
@@ -32,12 +16,13 @@ import org.apache.commons.logging.LogFactory;
 public class ManagementClient {
 
     private static Log log = LogFactory.getLog(PortForwardingClient.class);
-    private static final ThreadUtils threadUtils = ThreadUtils.getInstance();
+
+    private GlobalProperties properties = PortForwardingClient.getGlobalProperties();
 
     private JMXConnector jmxc;
     private MBeanServerConnection mbsc;
     
-    void initManagementClient() throws MalformedURLException, IOException{
+    void initManagementClient() throws IOException{
         // Create a JMXMP connector client and
         // connect it to the JMXMP connector server
         log.debug("Create a JMXMP connector client and " +
@@ -45,7 +30,10 @@ public class ManagementClient {
 
         String server = "goldtpus28.ru.db.com";
         //String server = null;
-        JMXServiceURL url = new JMXServiceURL("jmxmp", server, GlobalProperties.RMI_PORT);
+        JMXServiceURL url = new JMXServiceURL(PROTOCOL,
+                                    properties.getStringProperty(JMXMP_HOST),
+                                    properties.getIntProperty(JMXMP_PORT));
+
         this.jmxc = JMXConnectorFactory.connect(url, null);
 
         // Get an MBeanServerConnection
@@ -85,5 +73,7 @@ public class ManagementClient {
         this.jmxc.close();
         log.debug("Bye! Bye!");
     }
+
+
 
 }

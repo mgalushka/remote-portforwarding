@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward;
 
 import com.db.portforward.config.global.GlobalProperties;
+import static com.db.portforward.config.global.GlobalConstants.*;
+import static com.db.portforward.config.global.GlobalConstants.Client.*;
 import com.db.portforward.mgmt.SessionManagerMBean;
 import com.db.portforward.mgmt.SessionManagerMBeanImpl;
 import com.db.portforward.tracking.SessionManager;
@@ -27,45 +24,38 @@ public class ManagementServer {
     
     private static Log log = LogFactory.getLog(ManagementServer.class);
 
-    public void initManagement(){
+    private GlobalProperties properties = Application.getGlobalProperties();
+
+    public void initManagement() throws ApplicationException{
         try {
             // Instantiate the MBean server
-            //
             log.debug("Create the MBean server");
             MBeanServer mbs = MBeanServerFactory.createMBeanServer();
 
             // Create a JMXMP connector server
-            //
-            log.debug("Create a JMXMP connector server");
-            JMXServiceURL url = new JMXServiceURL("jmxmp", null, GlobalProperties.RMI_PORT);
+            log.debug("Create a JMXMP connector server on localhost");
+            JMXServiceURL url = new JMXServiceURL(PROTOCOL, null, 
+                                    properties.getIntProperty(JMXMP_PORT));
+
             JMXConnectorServer cs =
                 JMXConnectorServerFactory.newJMXConnectorServer(url, null, mbs);
 
             // Start the JMXMP connector server
-            //
             log.debug("Start the JMXMP connector server");
             cs.start();
-            log.debug("JMXMP connector server successfully started");
-            log.debug("Waiting for incoming connections...");
+            log.debug("JMXMP connector server successfully started\nWaiting for incoming connections...");
 
-
-            log.debug("Creating SessionManagerMBean instance");
             SessionManagerMBean impl = new SessionManagerMBeanImpl(SessionManager.getInstance());
-            log.debug("Creating StandardMBean instance");
             StandardMBean mbean = new StandardMBean(impl, SessionManagerMBean.class);
 
-            log.debug("Creating ObjectName");
             ObjectName mbeanName = new ObjectName("MBeans:type=SessionManagerMBeanImpl");
-            //mbs.createMBean("test.jmx.mgmt.SessionManagerMBeanImpl", mbeanName, null, null);
-            log.debug("Register MBean");
             mbs.registerMBean(mbean, mbeanName);
 
             log.debug("Session MBean registered");
 
         } catch (Throwable e) {
-            log.debug("Exception occured!!!");
             log.error(e);
-            e.printStackTrace();
+            throw new ApplicationException(e);
         }
     }
 
