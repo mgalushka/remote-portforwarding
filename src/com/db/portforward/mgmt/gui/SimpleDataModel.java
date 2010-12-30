@@ -8,7 +8,11 @@ package com.db.portforward.mgmt.gui;
 import com.db.portforward.mgmt.SessionManagerMBean;
 import com.db.portforward.tracking.Session;
 import java.util.List;
+import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -16,8 +20,13 @@ import javax.swing.table.AbstractTableModel;
  */
 public class SimpleDataModel extends AbstractTableModel{
 
-    private SessionManagerMBean mbean;
+    private static final long serialVersionUID = -6731665899501568990L;
 
+    private static Log log = LogFactory.getLog(SimpleDataModel.class);
+
+    private SessionManagerMBean mbean;
+    private List<Session> cachedSessionsList = new ArrayList<Session>();
+    
     public SimpleDataModel(SessionManagerMBean bean){
         this.mbean = bean;
     }
@@ -31,14 +40,19 @@ public class SimpleDataModel extends AbstractTableModel{
     }
 
     public Object getValueAt(int row, int col) {
-        List list = (List) mbean.getSessions();
-        Session s = (Session) list.get(row);
+        Session s = cachedSessionsList.get(row);
         switch(col){
             case 0: return Integer.toString(row+1);
             case 1: return s.getRecord().getSourcePort();
             case 2: return s.getRecord().getTargetUrl();
             default: return "";
         }
+    }
+
+    @Override
+    public void fireTableDataChanged() {
+        cachedSessionsList = (List<Session>) mbean.getSessions();
+        super.fireTableDataChanged();
     }
 
     @Override
