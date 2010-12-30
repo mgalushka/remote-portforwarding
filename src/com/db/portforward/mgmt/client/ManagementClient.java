@@ -7,12 +7,23 @@ package com.db.portforward.mgmt.client;
 
 import com.db.portforward.config.global.GlobalProperties;
 import com.db.portforward.mgmt.SessionManagerMBean;
-import com.db.portforward.utils.ThreadUtils;
-
 import java.io.IOException;
-import javax.management.*;
-import javax.management.remote.*;
-import org.apache.commons.logging.*;
+import java.net.MalformedURLException;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.MBeanException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MBeanServerConnection;
+import javax.management.MBeanServerInvocationHandler;
+import javax.management.MalformedObjectNameException;
+import javax.management.NotCompliantMBeanException;
+import javax.management.ObjectName;
+import javax.management.ReflectionException;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.enterprisepower.threads.ThreadUtils;
 
 /**
  *
@@ -26,13 +37,15 @@ public class ManagementClient {
     private JMXConnector jmxc;
     private MBeanServerConnection mbsc;
     
-    void initManagementClient() throws IOException{
+    void initManagementClient() throws MalformedURLException, IOException{
         // Create a JMXMP connector client and
         // connect it to the JMXMP connector server
         log.debug("Create a JMXMP connector client and " +
                            "connect it to the JMXMP connector server");
 
-        JMXServiceURL url = new JMXServiceURL("jmxmp", null, GlobalProperties.RMI_PORT);
+        String server = "goldtpus28.ru.db.com";
+        //String server = null;
+        JMXServiceURL url = new JMXServiceURL("jmxmp", server, GlobalProperties.RMI_PORT);
         this.jmxc = JMXConnectorFactory.connect(url, null);
 
         // Get an MBeanServerConnection
@@ -47,7 +60,7 @@ public class ManagementClient {
         }
     }
 
-    public SessionManagerMBean getSessionManagementBean() throws MalformedObjectNameException{
+    public SessionManagerMBean getSessionManagementBean() throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException{
 
         // Create SimpleStandard MBean
         ObjectName mbeanName = new ObjectName("MBeans:type=SessionManagerMBeanImpl");
@@ -56,8 +69,8 @@ public class ManagementClient {
         // Another way of interacting with a given MBean is through a
         // dedicated proxy instead of going directly through the MBean
         // server connection
-        SessionManagerMBean proxy =
-            MBeanServerInvocationHandler.newProxyInstance(
+        SessionManagerMBean proxy = (SessionManagerMBean)
+                MBeanServerInvocationHandler.newProxyInstance(
                                          mbsc,
                                          mbeanName,
                                          SessionManagerMBean.class,

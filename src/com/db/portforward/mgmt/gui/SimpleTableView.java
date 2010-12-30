@@ -35,7 +35,7 @@ public class SimpleTableView extends JPanel {
         final JTable table = new JTable(model);
         table.setTableHeader(new JTableHeader());
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-        table.setFillsViewportHeight(true);
+        //table.setFillsViewportHeight(true);
 
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);

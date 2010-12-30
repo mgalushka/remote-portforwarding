@@ -14,9 +14,9 @@ import java.io.Serializable;
  */
 public class Session implements Serializable{
 
-    private static final long serialVersionUID = 2744700308456246533L;
+    private static final long serialVersionUID = 123456L;
 
-    private PortForwardRecord record;                                     
+    private PortForwardRecord record;
 
     public Session(PortForwardRecord record) {
         this.record = record;

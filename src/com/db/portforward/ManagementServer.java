@@ -49,16 +49,22 @@ public class ManagementServer {
             log.debug("Waiting for incoming connections...");
 
 
+            log.debug("Creating SessionManagerMBean instance");
             SessionManagerMBean impl = new SessionManagerMBeanImpl(SessionManager.getInstance());
-            StandardMBean mbean = new StandardMBean(impl, SessionManagerMBean.class, false);
+            log.debug("Creating StandardMBean instance");
+            StandardMBean mbean = new StandardMBean(impl, SessionManagerMBean.class);
 
+            log.debug("Creating ObjectName");
             ObjectName mbeanName = new ObjectName("MBeans:type=SessionManagerMBeanImpl");
             //mbs.createMBean("test.jmx.mgmt.SessionManagerMBeanImpl", mbeanName, null, null);
+            log.debug("Register MBean");
             mbs.registerMBean(mbean, mbeanName);
 
             log.debug("Session MBean registered");
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
+            log.debug("Exception occured!!!");
+            log.error(e);
             e.printStackTrace();
         }
     }
