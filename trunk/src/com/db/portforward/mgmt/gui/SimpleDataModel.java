@@ -36,7 +36,7 @@ public class SimpleDataModel extends AbstractTableModel{
     }
 
     public int getRowCount() {
-        return mbean.getCount();
+        return cachedSessionsList.size();
     }
 
     public Object getValueAt(int row, int col) {
