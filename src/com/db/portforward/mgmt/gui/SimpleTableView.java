@@ -1,11 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.mgmt.gui;
 
-import com.db.portforward.mgmt.SessionManagerMBean;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
@@ -27,10 +21,6 @@ public class SimpleTableView extends JPanel {
                                 "Source Port",
                                 "Target Url",
                                 };
-
-
-        //TableModel dataModel = new SimpleDataModel(mbean);
-
 
         final JTable table = new JTable(model);
         table.setTableHeader(new JTableHeader());
