@@ -4,9 +4,7 @@ import com.db.portforward.config.ConfigurationException;
 import java.io.BufferedInputStream;
 
 import java.io.File;
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
