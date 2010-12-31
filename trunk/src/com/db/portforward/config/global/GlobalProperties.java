@@ -1,9 +1,11 @@
 package com.db.portforward.config.global;
 
 import com.db.portforward.config.ConfigurationException;
+import java.io.BufferedInputStream;
 
 import java.io.File;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -23,8 +25,8 @@ public class GlobalProperties {
 
     public GlobalProperties(File properiesFile) throws ConfigurationException {
         try {
-            props.load(new BufferedReader(
-                    new FileReader(properiesFile)
+            props.load(new BufferedInputStream(
+                    new FileInputStream(properiesFile)
             ));
         } catch (IOException e) {
             log.error(e);
