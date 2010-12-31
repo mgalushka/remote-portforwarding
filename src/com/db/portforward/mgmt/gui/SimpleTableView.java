@@ -5,7 +5,10 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 /**
@@ -22,8 +25,19 @@ public class SimpleTableView extends JPanel {
                                 "Target Url",
                                 };
 
-        final JTable table = new JTable(model);
-        table.setTableHeader(new JTableHeader());
+        JTableHeader header = new JTableHeader();
+        TableColumnModel columnModel = new DefaultTableColumnModel();
+        columnModel.addColumn(new TableColumn(0));
+        columnModel.addColumn(new TableColumn(1));
+        columnModel.addColumn(new TableColumn(2));
+        columnModel.getColumn(0).setHeaderValue("#");
+        columnModel.getColumn(0).setMaxWidth(25);
+        columnModel.getColumn(1).setHeaderValue("Source Port");
+        columnModel.getColumn(2).setHeaderValue("Target URL");
+
+        final JTable table = new JTable(model, columnModel);
+
+//        table.setTableHeader(header);
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         //table.setFillsViewportHeight(true);
 
