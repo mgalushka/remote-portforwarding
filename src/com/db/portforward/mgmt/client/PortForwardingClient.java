@@ -2,9 +2,9 @@ package com.db.portforward.mgmt.client;
 
 import com.db.portforward.config.global.GlobalProperties;
 import static com.db.portforward.config.global.GlobalConstants.Client.*;
-import com.db.portforward.mgmt.*;
 import com.db.portforward.mgmt.gui.*;
 import com.db.portforward.utils.*;
+import com.db.portforward.tracking.ManagerMBean;
 
 import java.io.IOException;
 import java.util.concurrent.*;
@@ -36,7 +36,7 @@ public class PortForwardingClient {
             client = new ManagementClient();
             client.initManagementClient();
 
-            final SessionManagerMBean sessionBean = client.getSessionManagementBean();
+            final ManagerMBean sessionBean = client.getSessionManagementBean();
             final AbstractTableModel model = new SimpleDataModel(sessionBean);
 
             //Schedule a job for the event-dispatching thread:
@@ -52,7 +52,8 @@ public class PortForwardingClient {
             refreshScheduler = threadUtils.scheduleAtFixedRate(clientSessionMonitoringThread,
                     global.getIntProperty(REFRESH_FREEQUENCY), TimeUnit.SECONDS);
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
+            e.printStackTrace();
             log.error("Client error ocurred: ", e);
         }
     }

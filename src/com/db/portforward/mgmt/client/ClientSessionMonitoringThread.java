@@ -5,7 +5,8 @@
 
 package com.db.portforward.mgmt.client;
 
-import com.db.portforward.mgmt.SessionManagerMBean;
+import com.db.portforward.tracking.ManagerMBean;
+
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,16 +20,16 @@ public class ClientSessionMonitoringThread implements Runnable{
     private static Log log = LogFactory.getLog(ClientSessionMonitoringThread.class);
 
     private AbstractTableModel model;
-    private SessionManagerMBean mbean;
+    private ManagerMBean mbean;
     
-    public ClientSessionMonitoringThread(AbstractTableModel model, SessionManagerMBean bean){
+    public ClientSessionMonitoringThread(AbstractTableModel model, ManagerMBean bean){
         this.mbean = bean;
         this.model = model;
     }
 
     public void run() {
-        log.debug("Sessions count = " + mbean.getCount());
-        log.debug(String.format("Sessions details = %s", mbean.getSessions()));
+        log.debug("Sessions count = " + mbean.getSessionsCount());
+        log.debug(String.format("Sessions details = %s", mbean.getActiveSessions()));
         model.fireTableDataChanged();
     }
 

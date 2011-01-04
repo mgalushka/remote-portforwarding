@@ -1,20 +1,25 @@
 package com.db.portforward.tracking;
 
+import javax.management.NotificationBroadcasterSupport;
+import javax.management.Notification;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Observable;
 
 /**
  *
  * @author mgalushka
  */
-public class SessionManager extends Observable implements Manager<Session>{
+public class SessionManager
+        extends NotificationBroadcasterSupport
+        implements ManagerMBean<Session> {
 
-    private static final Manager instance = new SessionManager();
+    public static final String SESSION_CHANGE = "session.change";
+
+    private static final ManagerMBean instance = new SessionManager();
     private volatile List<Session> sessions;
 
-    public static Manager getInstance(){
+    public static ManagerMBean getInstance(){
         return instance;
     }
 
@@ -31,11 +36,20 @@ public class SessionManager extends Observable implements Manager<Session>{
     }
 
     public synchronized void addSession(Session session) {
+        Notification addSessionNotification =
+            new Notification(SESSION_CHANGE, this, 0, "New Session was added");
+
         sessions.add(session);
+        sendNotification(addSessionNotification);
     }
 
     public synchronized boolean dropSession(Session session) {
-        return sessions.remove(session);
+        Notification removeSessionNotification =
+            new Notification(SESSION_CHANGE, this, 0, "Session was dropped");
+
+        boolean result = sessions.remove(session);
+        sendNotification(removeSessionNotification);
+        return result;
     }
 
 }

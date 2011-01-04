@@ -2,10 +2,9 @@ package com.db.portforward;
 
 import com.db.portforward.config.global.GlobalProperties;
 import static com.db.portforward.config.global.GlobalConstants.*;
-import static com.db.portforward.config.global.GlobalConstants.Client.*;
-import com.db.portforward.mgmt.SessionManagerMBean;
-import com.db.portforward.mgmt.SessionManagerMBeanImpl;
 import com.db.portforward.tracking.SessionManager;
+import com.db.portforward.tracking.ManagerMBean;
+
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
@@ -45,10 +44,12 @@ public class ManagementServer {
             cs.start();
             log.debug("JMXMP connector server successfully started\nWaiting for incoming connections...");
 
-            SessionManagerMBean impl = new SessionManagerMBeanImpl(SessionManager.getInstance());
-            StandardMBean mbean = new StandardMBean(impl, SessionManagerMBean.class);
+//            SessionManagerMBean impl = new SessionManagerMBeanImpl(SessionManager.getInstance());
+//            StandardMBean mbean = new StandardMBean(impl, SessionManagerMBean.class);
+            ManagerMBean manager = SessionManager.getInstance();
+            StandardMBean mbean = new StandardMBean(manager, ManagerMBean.class);
 
-            ObjectName mbeanName = new ObjectName("MBeans:type=SessionManagerMBeanImpl");
+            ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.tracking.SessionManager");
             mbs.registerMBean(mbean, mbeanName);
 
             log.debug("Session MBean registered");

@@ -32,7 +32,7 @@ public class Processor implements Cleanable {
 
     private static final Log log = LogFactory.getLog(Processor.class);
     private static final ThreadUtils threadUtils = ThreadUtils.getInstance();
-    private static final Manager manager = SessionManager.getInstance();
+    private static final ManagerMBean manager = SessionManager.getInstance();
     
     private Socket source;
     private Socket target;
