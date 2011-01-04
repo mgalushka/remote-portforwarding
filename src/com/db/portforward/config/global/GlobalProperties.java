@@ -18,7 +18,6 @@ import org.apache.commons.logging.LogFactory;
 public class GlobalProperties {
 
     private static Log log = LogFactory.getLog(GlobalProperties.class);
-
     private Properties props = new Properties();
 
     public GlobalProperties(File properiesFile) throws ConfigurationException {

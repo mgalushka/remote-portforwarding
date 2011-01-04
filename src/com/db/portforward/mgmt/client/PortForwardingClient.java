@@ -5,10 +5,8 @@ import static com.db.portforward.config.global.GlobalConstants.Client.*;
 import com.db.portforward.mgmt.*;
 import com.db.portforward.mgmt.gui.*;
 import com.db.portforward.utils.*;
-import com.db.portforward.config.ConfigurationException;
 
 import java.io.IOException;
-import java.io.File;
 import java.util.concurrent.*;
 import java.awt.event.*;
 import javax.swing.JFrame;
@@ -33,7 +31,7 @@ public class PortForwardingClient {
 
         try {
 
-            global = new GlobalProperties(getClientConfigurationFile());
+            global = new GlobalProperties(PathUtils.getConfigurationFile(CLIENT_PROPERTIES));
 
             client = new ManagementClient();
             client.initManagementClient();
@@ -99,17 +97,5 @@ public class PortForwardingClient {
     public static GlobalProperties getGlobalProperties() {
         return global;
     }
-
-    private static File getClientConfigurationFile() throws ConfigurationException {
-        try {
-            return PathUtils.getFile(
-                    PathUtils.getCurrentJarFilePath() + File.separator + CLIENT_PROPERTIES
-            );
-        } catch (Exception e) {
-            log.error(e);
-            throw  new ConfigurationException(e);
-        }
-    }
-
 
 }

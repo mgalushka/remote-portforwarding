@@ -1,5 +1,6 @@
 package com.db.portforward.utils;
 
+import com.db.portforward.config.ConfigurationException;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -24,6 +25,16 @@ public class PathUtils {
             resultFile = new File(url.getPath());
         }
         return resultFile;
+    }
+
+    public static File getConfigurationFile(String name) throws ConfigurationException{
+        try {
+            return PathUtils.getFile(
+                    PathUtils.getCurrentJarFilePath() + File.separator + name
+              );
+        } catch (Exception e) {
+            throw new ConfigurationException(e);
+        }
     }
 
 }
