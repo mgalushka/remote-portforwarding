@@ -74,18 +74,20 @@
 	
 	<target name="-post-compile" description="overriden post compile">
         <copy todir="${build.classes.dir}">
-            <fileset dir="${src.dir}" includes="*.cfg"/>
+            <fileset dir="${src.dir}" includes="*.cfg,*.properties"/>
         </copy>
     </target>
 	
 	<target name="-post-jar" description="overriden post jar">
         <copy todir="${dist.jar.dir}">
-            <fileset dir="${src.dir}" includes="*.cfg"/>
+            <fileset dir="${src.dir}" includes="*.cfg,*.properties"/>
         </copy>
     </target>	
 	
 	<target name="-post-clean" description="overriden post clean">
         <delete file="${build.classes.dir}/portforward.cfg"/>
+		<delete file="${build.classes.dir}/client.properties"/>
+		<delete file="${build.classes.dir}/server.properties"/>
     </target>
 	
 </project>
