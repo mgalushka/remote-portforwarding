@@ -53,7 +53,7 @@ public class ManagementServer {
 
             log.debug("Session MBean registered");
 
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error(e);
             throw new ApplicationException(e);
         }
