@@ -5,8 +5,9 @@
 
 package com.db.portforward.mgmt.gui;
 
-import com.db.portforward.mgmt.SessionManagerMBean;
 import com.db.portforward.tracking.Session;
+import com.db.portforward.tracking.ManagerMBean;
+
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
@@ -24,10 +25,10 @@ public class SimpleDataModel extends AbstractTableModel{
 
     private static Log log = LogFactory.getLog(SimpleDataModel.class);
 
-    private SessionManagerMBean mbean;
+    private ManagerMBean mbean;
     private List<Session> cachedSessionsList = new ArrayList<Session>();
     
-    public SimpleDataModel(SessionManagerMBean bean){
+    public SimpleDataModel(ManagerMBean bean){
         this.mbean = bean;
     }
 
@@ -51,7 +52,7 @@ public class SimpleDataModel extends AbstractTableModel{
 
     @Override
     public void fireTableDataChanged() {
-        cachedSessionsList = (List<Session>) mbean.getSessions();
+        cachedSessionsList = (List<Session>) mbean.getActiveSessions();
         super.fireTableDataChanged();
     }
 

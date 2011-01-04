@@ -5,13 +5,14 @@
 
 package com.db.portforward.tracking;
 
+import javax.management.NotificationBroadcaster;
 import java.util.Collection;
 
 /**
  *
  * @author mgalushka
  */
-public interface Manager <S>{
+public interface ManagerMBean<S> extends NotificationBroadcaster {
 
     int getSessionsCount();
 

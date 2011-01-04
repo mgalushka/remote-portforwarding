@@ -3,7 +3,8 @@ package com.db.portforward.mgmt.client;
 import com.db.portforward.config.global.GlobalProperties;
 import static com.db.portforward.config.global.GlobalConstants.*;
 import static com.db.portforward.config.global.GlobalConstants.Client.*;
-import com.db.portforward.mgmt.SessionManagerMBean;
+import com.db.portforward.tracking.ManagerMBean;
+//import com.db.portforward.mgmt.SessionManagerMBean;
 import java.io.IOException;
 import javax.management.*;
 import javax.management.remote.*;
@@ -22,7 +23,7 @@ public class ManagementClient {
     private JMXConnector jmxc;
     private MBeanServerConnection mbsc;
     
-    void initManagementClient() throws IOException{
+    void initManagementClient() throws IOException, MalformedObjectNameException, InstanceNotFoundException {
         // Create a JMXMP connector client and
         // connect it to the JMXMP connector server
         log.debug("Create a JMXMP connector client and " +
@@ -46,21 +47,34 @@ public class ManagementClient {
         }
     }
 
-    public SessionManagerMBean getSessionManagementBean() throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException{
+    public ManagerMBean getSessionManagementBean() throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
 
         // Create SimpleStandard MBean
-        ObjectName mbeanName = new ObjectName("MBeans:type=SessionManagerMBeanImpl");
+        ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.tracking.SessionManager");
         log.debug("Create SimpleStandard MBean...");
 
         // Another way of interacting with a given MBean is through a
         // dedicated proxy instead of going directly through the MBean
         // server connection
-        SessionManagerMBean proxy = (SessionManagerMBean)
-                MBeanServerInvocationHandler.newProxyInstance(
-                                         mbsc,
-                                         mbeanName,
-                                         SessionManagerMBean.class,
-                                         false);
+//        SessionManagerMBean proxy = (SessionManagerMBean)
+//                MBeanServerInvocationHandler.newProxyInstance(
+//                                         mbsc,
+//                                         mbeanName,
+//                                         SessionManagerMBean.class,
+//                                         false);
+
+            ManagerMBean proxy = (ManagerMBean)
+            MBeanServerInvocationHandler.newProxyInstance(
+                                     mbsc,
+                                     mbeanName,
+                                     ManagerMBean.class,
+                                     false);
+
+        SessionChangeListener listener = new SessionChangeListener();
+        log.debug("Add notification listener");
+//        mbsc.addNotificationListener(mbeanName, listener, null, null);
+
+        this.mbsc.addNotificationListener(mbeanName, listener, null, null);
 
         return proxy;
     }
