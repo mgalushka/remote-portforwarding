@@ -1,19 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.tracking;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Observable;
 
 /**
  *
  * @author mgalushka
  */
-public class SessionManager implements Manager<Session>{
+public class SessionManager extends Observable implements Manager<Session>{
 
     private static final Manager instance = new SessionManager();
     private volatile List<Session> sessions;
