@@ -1,26 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.config;
 
 import com.db.portforward.utils.PathUtils;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.io.*;
+import java.util.*;
+import org.apache.commons.logging.*;
 
 /**
  *
@@ -86,15 +69,9 @@ public class PortForwardConfiguration implements ConfigurationManager<PortForwar
         }
     }
 
-    protected synchronized void load() throws MalformedURLException,
-                                 URISyntaxException,
-                                 FileNotFoundException,
-                                 IOException {
+    protected synchronized void load() throws ConfigurationException, IOException {
 
-        String path = PathUtils.getCurrentJarFilePath();
-        path = path.substring(0, path.lastIndexOf('/')+1);
-
-        this.storage = PathUtils.getFile(path + File.separator + CONFIGURATION_FILE);
+        this.storage = PathUtils.getConfigurationFile(CONFIGURATION_FILE);
 
         log.debug(String.format("Path: %s", storage.getPath()));
 

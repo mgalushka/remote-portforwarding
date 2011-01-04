@@ -47,12 +47,13 @@ public class PortForwardingClient {
                 }
             });
 
+            // TODO: migrate to pub/sub interaction model to reduce traffic???
             ClientSessionMonitoringThread clientSessionMonitoringThread = new ClientSessionMonitoringThread(model, sessionBean);
             refreshScheduler = threadUtils.scheduleAtFixedRate(clientSessionMonitoringThread,
                     global.getIntProperty(REFRESH_FREEQUENCY), TimeUnit.SECONDS);
 
         } catch (Exception e) {
-            log.error(e);
+            log.error("Client error ocurred: ", e);
         }
     }
 
@@ -60,26 +61,21 @@ public class PortForwardingClient {
         //Create and set up the window.
         final JFrame frame = new JFrame("Remote monitoring");
 
-        frame.addWindowListener(new WindowListener() {
-            public void windowOpened(WindowEvent e) {}
-
-            public void windowClosing(WindowEvent e) {}
-
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosed(WindowEvent e) {
                 log.debug("Cancelling scheduler");
                 refreshScheduler.cancel(true);
                 try {
                     log.debug("Close client");
                     client.close();
-                    System.exit(0);
                 } catch (IOException e1) {
                     log.error(e1);
                 }
+                finally{
+                    System.exit(0);
+                }
             }
-            public void windowIconified(WindowEvent e) {}
-            public void windowDeiconified(WindowEvent e) {}
-            public void windowActivated(WindowEvent e) {}
-            public void windowDeactivated(WindowEvent e) {}
         });
 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

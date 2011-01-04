@@ -33,12 +33,13 @@ public class SimpleTableView extends JPanel {
         columnModel.getColumn(0).setHeaderValue("#");
         columnModel.getColumn(0).setMaxWidth(25);
         columnModel.getColumn(1).setHeaderValue("Source Port");
+        columnModel.getColumn(1).setMaxWidth(70);
         columnModel.getColumn(2).setHeaderValue("Target URL");
 
         final JTable table = new JTable(model, columnModel);
 
 //        table.setTableHeader(header);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        table.setPreferredScrollableViewportSize(new Dimension(500, 500));
         //table.setFillsViewportHeight(true);
 
         //Create the scroll pane and add the table to it.
