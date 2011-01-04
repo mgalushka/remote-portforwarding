@@ -28,8 +28,6 @@ public class ManagementClient {
         log.debug("Create a JMXMP connector client and " +
                            "connect it to the JMXMP connector server");
 
-        String server = "goldtpus28.ru.db.com";
-        //String server = null;
         JMXServiceURL url = new JMXServiceURL(PROTOCOL,
                                     properties.getStringProperty(JMXMP_HOST),
                                     properties.getIntProperty(JMXMP_PORT));
