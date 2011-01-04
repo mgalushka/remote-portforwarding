@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.utils;
 
 import java.util.concurrent.ScheduledFuture;
@@ -14,16 +9,26 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
 
 /**
  *
  * @author mgalushka
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ThreadUtilsTest {
 
     private static Log log;
     private ThreadUtils instance;
+
+    @Mock
     private Runnable runnable;
 
     public ThreadUtilsTest() {
@@ -41,13 +46,8 @@ public class ThreadUtilsTest {
     @Before
     public void setUp() {
         instance = ThreadUtils.getInstance();
-        runnable = new Runnable(){
-            public void run() {
-                log.debug("Thread");
-            }
-        };
     }
-
+    
     @After
     public void tearDown() {
     }
@@ -57,7 +57,7 @@ public class ThreadUtilsTest {
      */
     @Test
     public void testGetInstance() {
-        System.out.println("getInstance");
+        log.debug("getInstance");
         ThreadUtils secondResult = ThreadUtils.getInstance();
         assertEquals(instance, secondResult);
     }
@@ -67,7 +67,7 @@ public class ThreadUtilsTest {
      */
     @Test
     public void testScheduleThread() {
-        System.out.println("scheduleThread");
+        log.debug("scheduleThread");
         instance.scheduleThread(runnable);
     }
 
@@ -76,12 +76,9 @@ public class ThreadUtilsTest {
      */
     @Test
     public void testScheduleAtFixedRate() {
-        System.out.println("scheduleAtFixedRate");
-        int period = 1;
-        TimeUnit timeUnit = TimeUnit.SECONDS;
-//        ScheduledFuture expResult = null;
-        ScheduledFuture result = instance.scheduleAtFixedRate(runnable, period, timeUnit);
-        //assertEquals(expResult, result);
+        log.debug("scheduleAtFixedRate");
+        ScheduledFuture result = instance.scheduleAtFixedRate(runnable, 1, TimeUnit.SECONDS);
+        assertThat(result, is(notNullValue()));
     }
 
 }
