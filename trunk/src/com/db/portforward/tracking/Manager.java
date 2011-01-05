@@ -1,18 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.tracking;
 
 import java.util.Collection;
-import javax.management.NotificationEmitter;
 
 /**
  *
  * @author mgalushka
  */
-public interface SimpleStandardMBean<S> extends NotificationEmitter {
+public interface Manager<S> {
 
     int getSessionsCount();
 

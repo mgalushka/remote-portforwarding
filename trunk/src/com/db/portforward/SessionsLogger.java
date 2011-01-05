@@ -6,7 +6,7 @@
 package com.db.portforward;
 
 import com.db.portforward.tracking.SessionManager;
-import com.db.portforward.tracking.SimpleStandardMBean;
+import com.db.portforward.tracking.Manager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 public class SessionsLogger implements Runnable{
 
     private static Log log = LogFactory.getLog(SessionsLogger.class);
-    private static final SimpleStandardMBean sessionManager = SessionManager.getInstance();
+    private static final Manager sessionManager = SessionManager.getInstance();
     
     public void run() {
         log.debug(String.format("Current sessions count: %d", sessionManager.getSessionsCount()));

@@ -3,11 +3,12 @@ package com.db.portforward.mgmt.client;
 import com.db.portforward.config.global.GlobalProperties;
 import static com.db.portforward.config.global.GlobalConstants.*;
 import static com.db.portforward.config.global.GlobalConstants.Client.*;
-import com.db.portforward.tracking.SimpleStandardMBean;
-//import com.db.portforward.mgmt.SessionManagerMBean;
+import com.db.portforward.mgmt.SessionMgmtMBean;
 import java.io.IOException;
 import javax.management.*;
 import javax.management.remote.*;
+import javax.swing.table.AbstractTableModel;
+
 import org.apache.commons.logging.*;
 
 /**
@@ -24,8 +25,6 @@ public class ManagementClient {
     private MBeanServerConnection mbsc;
     
     void initManagementClient() throws IOException, MalformedObjectNameException, InstanceNotFoundException {
-        // Create a JMXMP connector client and
-        // connect it to the JMXMP connector server
         log.debug("Create a JMXMP connector client and " +
                            "connect it to the JMXMP connector server");
 
@@ -35,11 +34,9 @@ public class ManagementClient {
 
         this.jmxc = JMXConnectorFactory.connect(url, null);
 
-        // Get an MBeanServerConnection
         log.debug("Get an MBeanServerConnection");
         this.mbsc = jmxc.getMBeanServerConnection();
 
-        // Get domains from MBeanServer
         log.debug("Domains:");
         String domains[] = mbsc.getDomains();
         for (int i = 0; i < domains.length; i++) {
@@ -47,21 +44,21 @@ public class ManagementClient {
         }
     }
 
-    public SimpleStandardMBean getSessionManagementBean() throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
+    public SessionMgmtMBean getSessionMgmtBean(AbstractTableModel model) throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
 
         // Create SimpleStandard MBean
-        ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.tracking.SessionManager");
-        log.debug("Create SimpleStandard MBean...");
+        ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.mgmt.SessionMgmt");
+        log.debug("Get SessionMgmt MBean from server...");
 
-       SimpleStandardMBean proxy = (SimpleStandardMBean)
-            MBeanServerInvocationHandler.newProxyInstance(
-                                     mbsc,
-                                     mbeanName,
-                                     SimpleStandardMBean.class,
-                                     false);
+        SessionMgmtMBean proxy =
+                MBeanServerInvocationHandler.newProxyInstance(
+                        mbsc,
+                        mbeanName,
+                        SessionMgmtMBean.class,
+                        false);
 
-        SessionChangeListener listener = new SessionChangeListener();
         log.debug("Add notification listener");
+        SessionChangeListener listener = new SessionChangeListener(model);        
         this.mbsc.addNotificationListener(mbeanName, listener, null, null);
 
         return proxy;
@@ -73,7 +70,6 @@ public class ManagementClient {
         this.jmxc.close();
         log.debug("Bye! Bye!");
     }
-
 
 
 }

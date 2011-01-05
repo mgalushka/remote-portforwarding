@@ -1,24 +1,16 @@
 package com.db.portforward;
 
 import com.db.portforward.config.global.GlobalProperties;
-import com.db.portforward.mgmt.client.SessionChangeListener;
 import static com.db.portforward.config.global.GlobalConstants.*;
 import com.db.portforward.tracking.SessionManager;
-import com.db.portforward.tracking.SimpleStandardMBean;
-import javax.management.MBeanNotificationInfo;
 
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
-import javax.management.Notification;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.NotificationEmitter;
-import javax.management.ObjectName;
-import javax.management.StandardEmitterMBean;
-import javax.management.remote.JMXConnectorServer;
-import javax.management.remote.JMXConnectorServerFactory;
-import javax.management.remote.JMXServiceURL;
+import javax.management.*;
+import javax.management.remote.*;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.io.IOException;
 
 /**
  *
@@ -28,13 +20,16 @@ public class ManagementServer {
     
     private static Log log = LogFactory.getLog(ManagementServer.class);
 
+    private static MBeanServer mbs;
+    private static MBeanServerConnection mbsc;
+
     private GlobalProperties properties = Application.getGlobalProperties();
 
     public void initManagement() throws ApplicationException{
         try {
             // Instantiate the MBean server
             log.debug("Create the MBean server");
-            MBeanServer mbs = MBeanServerFactory.createMBeanServer();
+            mbs = MBeanServerFactory.createMBeanServer();
 
             // Create a JMXMP connector server
             log.debug("Create a JMXMP connector server on localhost");
@@ -49,31 +44,45 @@ public class ManagementServer {
             cs.start();
             log.debug("JMXMP connector server successfully started\nWaiting for incoming connections...");
 
-//            SessionManagerMBean impl = new SessionManagerMBeanImpl(SessionManager.getInstance());
-//            StandardMBean mbean = new StandardMBean(impl, SessionManagerMBean.class);
+            JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
+            mbsc = jmxc.getMBeanServerConnection();
 
-            final String[] types = new String[] {SessionManager.SESSION_CHANGE};
-            final MBeanNotificationInfo info = new MBeanNotificationInfo(
-                                                  types,
-                                                  Notification.class.getName(),
-                                                  "Notification about sessions.");
+//            SessionMgmtMBean impl = new SessionMgmt(SessionMgmt.getInstance());
+//            StandardMBean mbean = new StandardMBean(impl, SessionMgmtMBean.class);
 
-            final NotificationEmitter emitter =
-                    new NotificationBroadcasterSupport(info);
+//            final String[] types = new String[] {SessionManager.SESSION_CHANGE};
+//            final MBeanNotificationInfo info = new MBeanNotificationInfo(
+//                                                  types,
+//                                                  Notification.class.getName(),
+//                                                  "Notification about sessions.");
 
-            SimpleStandardMBean manager = SessionManager.getInstance();
-            StandardEmitterMBean mbean = new StandardEmitterMBean(manager, SimpleStandardMBean.class, manager);
+//            final NotificationEmitter emitter =
+//                    new NotificationBroadcasterSupport(info);
 
-            ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.tracking.SessionManager");
-            mbs.registerMBean(manager, mbeanName);
-//            mbs.createMBean("com.db.portforward.tracking.SessionManager", mbeanName);
+//            Manager manager = SessionMgmt.getInstance();
+//            StandardEmitterMBean mbean = new StandardEmitterMBean(manager, Manager.class, manager);
 
+//            mbs.registerMBean(manager, mbeanName);
+            mbs.createMBean("com.db.portforward.mgmt.SessionMgmt", getSessionMgmtBeanName(), null, null);
+           
             log.debug("Session MBean registered");
 
         } catch (Exception e) {
             log.error(e);
             throw new ApplicationException(e);
         }
+    }
+
+    public static void refreshSessions() {
+        try {
+            mbsc.invoke(getSessionMgmtBeanName(), "refresh", null, null);
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
+
+    private static ObjectName getSessionMgmtBeanName() throws MalformedObjectNameException {
+        return new ObjectName("MBeans:type=com.db.portforward.mgmt.SessionMgmt");
     }
 
 }
