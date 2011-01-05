@@ -4,7 +4,7 @@ import com.db.portforward.config.global.GlobalProperties;
 import static com.db.portforward.config.global.GlobalConstants.Client.*;
 import com.db.portforward.mgmt.gui.*;
 import com.db.portforward.utils.*;
-import com.db.portforward.tracking.ManagerMBean;
+import com.db.portforward.tracking.SimpleStandardMBean;
 
 import java.io.IOException;
 import java.util.concurrent.*;
@@ -36,7 +36,7 @@ public class PortForwardingClient {
             client = new ManagementClient();
             client.initManagementClient();
 
-            final ManagerMBean sessionBean = client.getSessionManagementBean();
+            final SimpleStandardMBean sessionBean = client.getSessionManagementBean();
             final AbstractTableModel model = new SimpleDataModel(sessionBean);
 
             //Schedule a job for the event-dispatching thread:

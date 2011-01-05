@@ -6,20 +6,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
 /**
  *
  * @author mgalushka
  */
 public class SessionManager
         extends NotificationBroadcasterSupport
-        implements ManagerMBean<Session> {
+        implements SimpleStandardMBean<Session>{
 
     public static final String SESSION_CHANGE = "session.change";
 
-    private static final ManagerMBean instance = new SessionManager();
+    private static final SimpleStandardMBean instance = new SessionManager();
     private volatile List<Session> sessions;
 
-    public static ManagerMBean getInstance(){
+    public static synchronized  SimpleStandardMBean getInstance(){
         return instance;
     }
 
