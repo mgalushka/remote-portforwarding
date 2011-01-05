@@ -3,7 +3,7 @@ package com.db.portforward.mgmt.client;
 import com.db.portforward.config.global.GlobalProperties;
 import static com.db.portforward.config.global.GlobalConstants.*;
 import static com.db.portforward.config.global.GlobalConstants.Client.*;
-import com.db.portforward.tracking.ManagerMBean;
+import com.db.portforward.tracking.SimpleStandardMBean;
 //import com.db.portforward.mgmt.SessionManagerMBean;
 import java.io.IOException;
 import javax.management.*;
@@ -47,33 +47,21 @@ public class ManagementClient {
         }
     }
 
-    public ManagerMBean getSessionManagementBean() throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
+    public SimpleStandardMBean getSessionManagementBean() throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
 
         // Create SimpleStandard MBean
         ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.tracking.SessionManager");
         log.debug("Create SimpleStandard MBean...");
 
-        // Another way of interacting with a given MBean is through a
-        // dedicated proxy instead of going directly through the MBean
-        // server connection
-//        SessionManagerMBean proxy = (SessionManagerMBean)
-//                MBeanServerInvocationHandler.newProxyInstance(
-//                                         mbsc,
-//                                         mbeanName,
-//                                         SessionManagerMBean.class,
-//                                         false);
-
-            ManagerMBean proxy = (ManagerMBean)
+       SimpleStandardMBean proxy = (SimpleStandardMBean)
             MBeanServerInvocationHandler.newProxyInstance(
                                      mbsc,
                                      mbeanName,
-                                     ManagerMBean.class,
+                                     SimpleStandardMBean.class,
                                      false);
 
         SessionChangeListener listener = new SessionChangeListener();
         log.debug("Add notification listener");
-//        mbsc.addNotificationListener(mbeanName, listener, null, null);
-
         this.mbsc.addNotificationListener(mbeanName, listener, null, null);
 
         return proxy;

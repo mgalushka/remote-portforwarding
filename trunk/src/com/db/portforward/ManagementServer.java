@@ -1,14 +1,19 @@
 package com.db.portforward;
 
 import com.db.portforward.config.global.GlobalProperties;
+import com.db.portforward.mgmt.client.SessionChangeListener;
 import static com.db.portforward.config.global.GlobalConstants.*;
 import com.db.portforward.tracking.SessionManager;
-import com.db.portforward.tracking.ManagerMBean;
+import com.db.portforward.tracking.SimpleStandardMBean;
+import javax.management.MBeanNotificationInfo;
 
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
+import javax.management.Notification;
+import javax.management.NotificationBroadcasterSupport;
+import javax.management.NotificationEmitter;
 import javax.management.ObjectName;
-import javax.management.StandardMBean;
+import javax.management.StandardEmitterMBean;
 import javax.management.remote.JMXConnectorServer;
 import javax.management.remote.JMXConnectorServerFactory;
 import javax.management.remote.JMXServiceURL;
@@ -46,11 +51,22 @@ public class ManagementServer {
 
 //            SessionManagerMBean impl = new SessionManagerMBeanImpl(SessionManager.getInstance());
 //            StandardMBean mbean = new StandardMBean(impl, SessionManagerMBean.class);
-            ManagerMBean manager = SessionManager.getInstance();
-            StandardMBean mbean = new StandardMBean(manager, ManagerMBean.class);
+
+            final String[] types = new String[] {SessionManager.SESSION_CHANGE};
+            final MBeanNotificationInfo info = new MBeanNotificationInfo(
+                                                  types,
+                                                  Notification.class.getName(),
+                                                  "Notification about sessions.");
+
+            final NotificationEmitter emitter =
+                    new NotificationBroadcasterSupport(info);
+
+            SimpleStandardMBean manager = SessionManager.getInstance();
+            StandardEmitterMBean mbean = new StandardEmitterMBean(manager, SimpleStandardMBean.class, manager);
 
             ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.tracking.SessionManager");
-            mbs.registerMBean(mbean, mbeanName);
+            mbs.registerMBean(manager, mbeanName);
+//            mbs.createMBean("com.db.portforward.tracking.SessionManager", mbeanName);
 
             log.debug("Session MBean registered");
 

@@ -1,6 +1,6 @@
 package com.db.portforward.mgmt;
 
-import com.db.portforward.tracking.ManagerMBean;
+import com.db.portforward.tracking.SimpleStandardMBean;
 
 import java.util.Collection;
 import javax.management.NotificationBroadcasterSupport;
@@ -14,9 +14,9 @@ public class SessionManagerMBeanImpl
             extends NotificationBroadcasterSupport
             implements SessionManagerMBean {
 
-    private ManagerMBean manager;
+    private SimpleStandardMBean manager;
 
-    public SessionManagerMBeanImpl(ManagerMBean manager) {
+    public SessionManagerMBeanImpl(SimpleStandardMBean manager) {
         this.manager = manager;
     }
 
