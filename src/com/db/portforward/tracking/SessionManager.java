@@ -1,26 +1,22 @@
 package com.db.portforward.tracking;
 
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.Notification;
+import com.db.portforward.ManagementServer;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 
 /**
  *
  * @author mgalushka
  */
 public class SessionManager
-        extends NotificationBroadcasterSupport
-        implements SimpleStandardMBean<Session>{
+        implements Manager<Session> {    
 
-    public static final String SESSION_CHANGE = "session.change";
-
-    private static final SimpleStandardMBean instance = new SessionManager();
+    private static final Manager instance = new SessionManager();
     private volatile List<Session> sessions;
 
-    public static synchronized  SimpleStandardMBean getInstance(){
+    public static synchronized Manager getInstance(){
         return instance;
     }
 
@@ -37,19 +33,13 @@ public class SessionManager
     }
 
     public synchronized void addSession(Session session) {
-        Notification addSessionNotification =
-            new Notification(SESSION_CHANGE, this, 0, "New Session was added");
-
         sessions.add(session);
-        sendNotification(addSessionNotification);
+        ManagementServer.refreshSessions();
     }
 
     public synchronized boolean dropSession(Session session) {
-        Notification removeSessionNotification =
-            new Notification(SESSION_CHANGE, this, 0, "Session was dropped");
-
-        boolean result = sessions.remove(session);
-        sendNotification(removeSessionNotification);
+        boolean result = sessions.remove(session);  
+        ManagementServer.refreshSessions();
         return result;
     }
 

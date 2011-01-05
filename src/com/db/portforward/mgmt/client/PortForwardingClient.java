@@ -1,15 +1,13 @@
 package com.db.portforward.mgmt.client;
 
 import com.db.portforward.config.global.GlobalProperties;
-import static com.db.portforward.config.global.GlobalConstants.Client.*;
 import com.db.portforward.mgmt.gui.*;
+import com.db.portforward.mgmt.SessionMgmtMBean;
 import com.db.portforward.utils.*;
-import com.db.portforward.tracking.SimpleStandardMBean;
 
 import java.io.IOException;
-import java.util.concurrent.*;
 import java.awt.event.*;
-import javax.swing.JFrame;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.logging.*;
 
@@ -19,13 +17,13 @@ import org.apache.commons.logging.*;
 public class PortForwardingClient {
 
     private static Log log = LogFactory.getLog(PortForwardingClient.class);
-    private static final ThreadUtils threadUtils = ThreadUtils.getInstance();
+//    private static final ThreadUtils threadUtils = ThreadUtils.getInstance();
 
     private static final String CLIENT_PROPERTIES = "client.properties";
     private static GlobalProperties global;
     private static ManagementClient client;
 
-    private static Future refreshScheduler;
+//    private static Future refreshScheduler;
 
     public static void main(String[] args) throws IOException {
 
@@ -36,21 +34,22 @@ public class PortForwardingClient {
             client = new ManagementClient();
             client.initManagementClient();
 
-            final SimpleStandardMBean sessionBean = client.getSessionManagementBean();
-            final AbstractTableModel model = new SimpleDataModel(sessionBean);
+            final SimpleDataModel model = new SimpleDataModel();
+            final SessionMgmtMBean sessionMgmtBean = client.getSessionMgmtBean(model);
+            model.setMbean(sessionMgmtBean);
 
-            //Schedule a job for the event-dispatching thread:
-            //creating and showing this application's GUI.
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     createAndShowGUI(model);
                 }
             });
 
             // TODO: migrate to pub/sub interaction model to reduce traffic???
-            ClientSessionMonitoringThread clientSessionMonitoringThread = new ClientSessionMonitoringThread(model, sessionBean);
-            refreshScheduler = threadUtils.scheduleAtFixedRate(clientSessionMonitoringThread,
-                    global.getIntProperty(REFRESH_FREEQUENCY), TimeUnit.SECONDS);
+//            ClientSessionMonitoringThread clientSessionMonitoringThread =
+//                    new ClientSessionMonitoringThread(model, sessionMgmtBean);
+//
+//            refreshScheduler = threadUtils.scheduleAtFixedRate(clientSessionMonitoringThread,
+//                    global.getIntProperty(REFRESH_FREEQUENCY), TimeUnit.SECONDS);
 
         } catch (Throwable e) {
             e.printStackTrace();
@@ -66,7 +65,7 @@ public class PortForwardingClient {
             @Override
             public void windowClosed(WindowEvent e) {
                 log.debug("Cancelling scheduler");
-                refreshScheduler.cancel(true);
+//                refreshScheduler.cancel(true);
                 try {
                     log.debug("Close client");
                     client.close();
