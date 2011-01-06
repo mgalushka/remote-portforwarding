@@ -17,13 +17,10 @@ import org.apache.commons.logging.*;
 public class PortForwardingClient {
 
     private static Log log = LogFactory.getLog(PortForwardingClient.class);
-//    private static final ThreadUtils threadUtils = ThreadUtils.getInstance();
 
     private static final String CLIENT_PROPERTIES = "client.properties";
     private static GlobalProperties global;
     private static ManagementClient client;
-
-//    private static Future refreshScheduler;
 
     public static void main(String[] args) throws IOException {
 
@@ -57,8 +54,6 @@ public class PortForwardingClient {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                log.debug("Cancelling scheduler");
-//                refreshScheduler.cancel(true);
                 try {
                     log.debug("Close client");
                     client.close();
