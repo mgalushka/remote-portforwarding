@@ -1,14 +1,11 @@
 package com.db.portforward.mgmt;
 
-import com.db.portforward.tracking.Manager;
-import com.db.portforward.tracking.SessionManager;
-import com.db.portforward.ManagementServer;
+import com.db.portforward.tracking.*;
 
 import java.util.Collection;
 import javax.management.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.*;
 
 /**
  * JMX Management bean implementation to monitor sessions on server
@@ -24,28 +21,6 @@ public class SessionMgmt
 
     public static final String SESSION_CHANGE = "session.change";
     private Manager manager = SessionManager.getInstance();
-
-//    public static SessionMgmtMBean getServerMgmtInstance()
-//            throws MalformedObjectNameException, InstanceNotFoundException {
-//
-//        ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.mgmt.SessionMgmt");
-//        log.debug("Get SessionMgmt MBean from server...");
-//
-////        return (SessionMgmt) MBeanServerInvocationHandler.newProxyInstance(
-////                        ManagementServer.getServer(),
-////                        mbeanName,
-////                        SessionMgmtMBean.class,
-////                        false);
-//
-//        SessionMgmtMBean proxy =
-//                MBeanServerInvocationHandler.newProxyInstance(
-//                        ManagementServer.getServer(),
-//                        mbeanName,
-//                        SessionMgmtMBean.class,
-//                        false);
-//
-//        return proxy;//ManagementServer.getServer().getObjectInstance(mbeanName).
-//    }
 
     public SessionMgmt() {
     }
