@@ -44,13 +44,6 @@ public class PortForwardingClient {
                 }
             });
 
-            // TODO: migrate to pub/sub interaction model to reduce traffic???
-//            ClientSessionMonitoringThread clientSessionMonitoringThread =
-//                    new ClientSessionMonitoringThread(model, sessionMgmtBean);
-//
-//            refreshScheduler = threadUtils.scheduleAtFixedRate(clientSessionMonitoringThread,
-//                    global.getIntProperty(REFRESH_FREEQUENCY), TimeUnit.SECONDS);
-
         } catch (Throwable e) {
             e.printStackTrace();
             log.error("Client error ocurred: ", e);
