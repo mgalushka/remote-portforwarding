@@ -5,7 +5,6 @@
 
 package com.db.portforward.mgmt.client;
 
-import com.db.portforward.tracking.Manager;
 import com.db.portforward.mgmt.SessionMgmtMBean;
 
 import javax.swing.table.AbstractTableModel;

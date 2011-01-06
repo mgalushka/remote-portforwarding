@@ -4,6 +4,7 @@ import com.db.portforward.config.global.GlobalProperties;
 import static com.db.portforward.config.global.GlobalConstants.*;
 import static com.db.portforward.config.global.GlobalConstants.Client.*;
 import com.db.portforward.mgmt.SessionMgmtMBean;
+import com.db.portforward.utils.MgmtObjectsFactory;
 import java.io.IOException;
 import javax.management.*;
 import javax.management.remote.*;
@@ -46,20 +47,18 @@ public class ManagementClient {
 
     public SessionMgmtMBean getSessionMgmtBean(AbstractTableModel model) throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
 
-        // Create SimpleStandard MBean
-        ObjectName mbeanName = new ObjectName("MBeans:type=com.db.portforward.mgmt.SessionMgmt");
         log.debug("Get SessionMgmt MBean from server...");
-
+        ObjectName sessionMBeanName = MgmtObjectsFactory.getSessionObjectName();
         SessionMgmtMBean proxy =
                 MBeanServerInvocationHandler.newProxyInstance(
                         mbsc,
-                        mbeanName,
+                        sessionMBeanName,
                         SessionMgmtMBean.class,
                         false);
 
         log.debug("Add notification listener");
         SessionChangeListener listener = new SessionChangeListener(model);        
-        this.mbsc.addNotificationListener(mbeanName, listener, null, null);
+        this.mbsc.addNotificationListener(sessionMBeanName, listener, null, null);
 
         return proxy;
     }

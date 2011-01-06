@@ -1,16 +1,15 @@
 package com.db.portforward;
 
 import com.db.portforward.config.global.GlobalProperties;
+import com.db.portforward.mgmt.SessionMgmt;
 import static com.db.portforward.config.global.GlobalConstants.*;
-import com.db.portforward.tracking.SessionManager;
+import com.db.portforward.utils.MgmtObjectsFactory;
 
 import javax.management.*;
 import javax.management.remote.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import java.io.IOException;
 
 /**
  *
@@ -22,6 +21,8 @@ public class ManagementServer {
 
     private static MBeanServer mbs;
     private static MBeanServerConnection mbsc;
+
+    private JMXConnectorServer cs;
 
     private GlobalProperties properties = Application.getGlobalProperties();
 
@@ -36,8 +37,7 @@ public class ManagementServer {
             JMXServiceURL url = new JMXServiceURL(PROTOCOL, null, 
                                     properties.getIntProperty(JMXMP_PORT));
 
-            JMXConnectorServer cs =
-                JMXConnectorServerFactory.newJMXConnectorServer(url, null, mbs);
+            cs = JMXConnectorServerFactory.newJMXConnectorServer(url, null, mbs);
 
             // Start the JMXMP connector server
             log.debug("Start the JMXMP connector server");
@@ -47,23 +47,8 @@ public class ManagementServer {
             JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
             mbsc = jmxc.getMBeanServerConnection();
 
-//            SessionMgmtMBean impl = new SessionMgmt(SessionMgmt.getInstance());
-//            StandardMBean mbean = new StandardMBean(impl, SessionMgmtMBean.class);
-
-//            final String[] types = new String[] {SessionManager.SESSION_CHANGE};
-//            final MBeanNotificationInfo info = new MBeanNotificationInfo(
-//                                                  types,
-//                                                  Notification.class.getName(),
-//                                                  "Notification about sessions.");
-
-//            final NotificationEmitter emitter =
-//                    new NotificationBroadcasterSupport(info);
-
-//            Manager manager = SessionMgmt.getInstance();
-//            StandardEmitterMBean mbean = new StandardEmitterMBean(manager, Manager.class, manager);
-
-//            mbs.registerMBean(manager, mbeanName);
-            mbs.createMBean("com.db.portforward.mgmt.SessionMgmt", getSessionMgmtBeanName(), null, null);
+            mbs.createMBean(SessionMgmt.class.getName(),
+                            MgmtObjectsFactory.getSessionObjectName(), null, null);
            
             log.debug("Session MBean registered");
 
@@ -75,14 +60,22 @@ public class ManagementServer {
 
     public static void refreshSessions() {
         try {
-            mbsc.invoke(getSessionMgmtBeanName(), "refresh", null, null);
+            mbsc.invoke(MgmtObjectsFactory.getSessionObjectName(), "refresh", null, null);
         } catch (Exception e) {
             log.error(e);
         }
     }
 
-    private static ObjectName getSessionMgmtBeanName() throws MalformedObjectNameException {
-        return new ObjectName("MBeans:type=com.db.portforward.mgmt.SessionMgmt");
+    /**
+     * Implement correct resource management and closing
+     * @throws Throwable
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        mbs.unregisterMBean(MgmtObjectsFactory.getSessionObjectName());
+        cs.stop();
     }
+
+
 
 }
