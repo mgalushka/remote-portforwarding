@@ -8,7 +8,7 @@ import java.util.concurrent.*;
  */
 public class ThreadUtils {
 
-    private ExecutorService pool = null;
+    private ScheduledExecutorService pool = null;
     private static final ThreadUtils instance = new ThreadUtils();
 
     private ThreadUtils(){
@@ -26,6 +26,6 @@ public class ThreadUtils {
     }
 
     public ScheduledFuture scheduleAtFixedRate(Runnable r, int period, TimeUnit timeUnit){
-        return ((ScheduledExecutorService)pool).scheduleAtFixedRate(r, 0, period, timeUnit);
+        return pool.scheduleAtFixedRate(r, 0, period, timeUnit);
     }
 }

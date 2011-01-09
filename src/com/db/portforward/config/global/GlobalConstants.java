@@ -11,12 +11,10 @@ public final class GlobalConstants {
         public static final String REFRESH_FREEQUENCY = "refresh.frequency.seconds";
 
         public static final String JMXMP_HOST = "jmxmp.host";
-//        public static final String JMXMP_HOST = "jmxmp.host";
     }
 
+    // TODO: do we need this?
     public static final class Server{
-//        public static final String JMXMP_HOST = "jmxmp.host";
-//        public static final String JMXMP_HOST = "jmxmp.host";
     }
 
 
