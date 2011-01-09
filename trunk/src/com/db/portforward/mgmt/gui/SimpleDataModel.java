@@ -33,10 +33,6 @@ public class SimpleDataModel extends AbstractTableModel{
     public SimpleDataModel() {
     }
 
-//    public SimpleDataModel(SessionMgmtMBean bean){
-//        this.mbean = bean;
-//    }
-
     public void setMbean(SessionMgmtMBean mbean) {
         this.mbean = mbean;
     }

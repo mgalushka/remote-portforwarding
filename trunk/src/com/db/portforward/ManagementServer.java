@@ -72,6 +72,7 @@ public class ManagementServer {
      */
     @Override
     protected void finalize() throws Throwable {
+        super.finalize();
         mbs.unregisterMBean(MgmtObjectsFactory.getSessionObjectName());
         cs.stop();
     }
