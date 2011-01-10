@@ -13,10 +13,10 @@ import java.io.Serializable;
  */
 public class PortForwardRecord implements Serializable{
 
-    private static final long serialVersionUID = 123456L;
+    private static final long serialVersionUID = 863105915984711331L;
 
     private String sourcePort;
-    private String targetUrl;
+    private String targetUrl;                                            
 
     public PortForwardRecord() {
     }

@@ -9,8 +9,14 @@ import java.util.Collection;
  */
 public interface SessionMgmtMBean extends NotificationEmitter {
 
+    /**
+     * @return number of active sessions
+     */
     int getCount();
 
+    /**
+     * @return the list of active session currently runnitng on server
+     */
     Collection getSessions();
 
     /**
