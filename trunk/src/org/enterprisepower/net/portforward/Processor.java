@@ -48,7 +48,7 @@ public class Processor implements Cleanable {
         this.cleaner = cleaner;
 
         this.session = session;
-        manager.addSession(session);
+        manager.createSession(session);
         cleaner.add(this);
     }
 

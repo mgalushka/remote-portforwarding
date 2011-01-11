@@ -18,4 +18,8 @@ public class MgmtObjectsFactory {
     public static ObjectName getSessionObjectName() throws MalformedObjectNameException{
         return new ObjectName("MBeans:type=com.db.portforward.mgmt.SessionMgmt");
     }
+
+    public static ObjectName getConnectionObjectName() throws MalformedObjectNameException{
+        return new ObjectName("MBeans:type=com.db.portforward.mgmt.ConnectionMgmt");
+    }
 }

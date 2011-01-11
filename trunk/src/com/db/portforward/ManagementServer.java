@@ -2,6 +2,8 @@ package com.db.portforward;
 
 import com.db.portforward.config.global.GlobalProperties;
 import com.db.portforward.mgmt.SessionMgmt;
+import com.db.portforward.mgmt.ConnectionMgmt;
+import com.db.portforward.mgmt.ConnectionMgmtMBean;
 import static com.db.portforward.config.global.GlobalConstants.*;
 import com.db.portforward.utils.MgmtObjectsFactory;
 
@@ -49,8 +51,12 @@ public class ManagementServer {
 
             mbs.createMBean(SessionMgmt.class.getName(),
                             MgmtObjectsFactory.getSessionObjectName(), null, null);
-           
             log.debug("Session MBean registered");
+
+            mbs.createMBean(ConnectionMgmt.class.getName(),
+                            MgmtObjectsFactory.getConnectionObjectName(), null, null);
+            log.debug("Connection MBean registered");           
+
 
         } catch (Exception e) {
             log.error(e);
@@ -63,6 +69,22 @@ public class ManagementServer {
             mbsc.invoke(MgmtObjectsFactory.getSessionObjectName(), "refresh", null, null);
         } catch (Exception e) {
             log.error(e);
+        }
+    }
+
+    public ConnectionMgmtMBean getConnectionsMgmtBean() throws ApplicationException{
+        try {
+            ConnectionMgmtMBean proxy =
+                MBeanServerInvocationHandler.newProxyInstance(
+                        mbsc,
+                        MgmtObjectsFactory.getConnectionObjectName(),
+                        ConnectionMgmtMBean.class,
+                        false);
+
+            return proxy;
+        } catch (Exception e) {
+            log.error(e);
+            throw new ApplicationException("Cannot create proxy object", e);
         }
     }
 

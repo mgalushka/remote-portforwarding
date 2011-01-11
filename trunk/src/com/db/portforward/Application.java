@@ -3,12 +3,12 @@ package com.db.portforward;
 import com.db.portforward.config.*;
 import com.db.portforward.config.global.GlobalProperties;
 import com.db.portforward.utils.*;
+import com.db.portforward.mgmt.ConnectionMgmtMBean;
 
-import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.ScheduledExecutorService;
 
 import org.apache.commons.logging.*;
-import org.enterprisepower.net.portforward.Listener;
 
 /**
  *
@@ -21,9 +21,9 @@ public class Application {
     private static GlobalProperties global;
 
     private static Log log = LogFactory.getLog(Application.class);
-    private static final ThreadUtils threadUtils = ThreadUtils.getInstance();
 
     private ConfigurationManager<PortForwardRecord> configurationManager;
+    private ScheduledExecutorService executorService;
 
     public Application(ConfigurationManager<PortForwardRecord> configurationManager) {
         this.configurationManager = configurationManager;
@@ -37,18 +37,22 @@ public class Application {
 
         try {
             global = new GlobalProperties(PathUtils.getConfigurationFile(SERVER_PROPERTIES));
-            
+
+            ManagementServer ms = new ManagementServer();
+            ms.initManagement();
+
             Collection<PortForwardRecord> records = getConfigurationManager().getConfiguration();
             if(records == null){
                 throw new ApplicationException("Configuration manager returned null configuration");
             }
 
+            ConnectionMgmtMBean mbean = ms.getConnectionsMgmtBean();
             for (PortForwardRecord record : records) {
                 try {
-                    Listener listener = new Listener(record);
-                    threadUtils.scheduleThread(listener);
-                } catch (IOException iOException) {
-                    log.error(iOException);
+                    mbean.createConnection(record);
+                }
+                catch(ConfigurationException e){
+                    log.error(e);
                 }
             }
         }
@@ -57,8 +61,6 @@ public class Application {
             throw new ApplicationException(configurationException);
         } 
 
-        ManagementServer ms = new ManagementServer();
-        ms.initManagement();
     }
 
     private ConfigurationManager<PortForwardRecord> getConfigurationManager()
@@ -76,6 +78,10 @@ public class Application {
      */
     public void setConfigurationManager(ConfigurationManager<PortForwardRecord> configurationManager) {
         this.configurationManager = configurationManager;
+    }
+    
+    public void setThreadExecutorService(ScheduledExecutorService service) {
+        this.executorService = service;
     }
 
     public static GlobalProperties getGlobalProperties() {

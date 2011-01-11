@@ -7,7 +7,6 @@ import com.db.portforward.config.ConfigurationException;
 
 /**
  * 
- * @author Kenneth Xu
  * 
  */
 public class Forwarder {
@@ -19,6 +18,5 @@ public class Forwarder {
      */
     public static void main(String[] args) throws ApplicationException, ConfigurationException {
         new Application(PortForwardConfigurationManager.getConfigurationManager()).start();
-        
     }
 }
