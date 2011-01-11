@@ -28,27 +28,24 @@ import org.enterprisepower.net.NetUtils;
  * @author Kenneth Xu
  * 
  */
-public class Listener implements Runnable {
+public class Listener extends Thread{
 
     private static Log log = LogFactory.getLog(Listener.class);
     private static final ThreadUtils threadUtils = ThreadUtils.getInstance();
 
     private ServerSocket serverSocket;
-    //private PortForwardConnection connection;
     private InetSocketAddress from, to;
-    private Throwable exception;
     private Cleaner cleaner = new Cleaner();
     private PortForwardRecord record;
 
-    public Throwable getException() {
-        return exception;
+    public PortForwardRecord getRecord() {
+        return record;
     }
 
     public Listener(PortForwardRecord connection) throws IOException {
         this(NetUtils.parseInetSocketAddress(connection.getSourcePort()),
                 NetUtils.parseInetSocketAddress(connection.getTargetUrl()));
         record = connection;
-        //this.connection = connection;
     }
 
     public Listener(InetSocketAddress from, InetSocketAddress to)
@@ -58,44 +55,40 @@ public class Listener implements Runnable {
         serverSocket = new ServerSocket();
         serverSocket.setReuseAddress(true);
         serverSocket.bind(from);
-        String hostname = from.getHostName();
-        if (hostname == null) {
-            hostname = "*";
-        }
+
         log.info("Ready to accept client connection from " + from.getPort()
                 + " to " + to.getHostName() + ":" + to.getPort());
     }
 
-    // TODO: implement stop condition
     public void run() {
         Socket source = null;
-//        new Thread(cleaner).start();
         threadUtils.scheduleThread(cleaner);
-        while (true) {
+        while (!this.isInterrupted()) {
             try {
                 TargetConnector connector = new TargetConnector(to);
                 source = serverSocket.accept();
+                if(this.isInterrupted()) return;
+
                 log.trace("accepted client connection");
                 Socket target = connector.openSocket();
                 Session session = new Session(record);
                 new Processor(session, source, target, cleaner).process();
-//                processor.process();
             } catch (IOException e) {
                 String msg = "Failed to accept client connection on port "
                         + from.getPort();
                 log.error(msg, e);
-                exception = e;
                 try {
                     if (source != null && !source.isClosed()) {
                         source.close();
                     }
                 } catch (IOException e1) {
                     log.error("Error during closing server socket attempt ", e);
+                    throw new ListenerException(e1);
                 }
+                throw new ListenerException(e);
             }
         }
     }
-
 
     public void close() {
         if (!serverSocket.isClosed()) {
@@ -105,5 +98,22 @@ public class Listener implements Runnable {
                 log.error(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Listener listener = (Listener) o;
+
+        if (!record.equals(listener.record)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return record.hashCode();
     }
 }

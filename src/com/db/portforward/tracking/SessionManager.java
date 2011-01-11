@@ -32,7 +32,7 @@ public class SessionManager
         return sessions;
     }
 
-    public synchronized void addSession(Session session) {
+    public synchronized void createSession(Session session) {
         sessions.add(session);
         ManagementServer.refreshSessions();
     }
