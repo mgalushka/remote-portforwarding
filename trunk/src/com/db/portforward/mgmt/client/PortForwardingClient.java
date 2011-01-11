@@ -68,6 +68,8 @@ public class PortForwardingClient {
 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        //JOptionPane pane = new JOption Pane(); 
+
         //Create and set up the content pane.
         SimpleTableView newContentPane = new SimpleTableView(model);
         newContentPane.setOpaque(true); //content panes must be opaque
