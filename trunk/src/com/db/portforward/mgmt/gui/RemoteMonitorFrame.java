@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.mgmt.gui;
 
 import com.db.portforward.ApplicationException;
@@ -11,6 +6,7 @@ import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 import javax.swing.table.AbstractTableModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,10 +42,17 @@ public class RemoteMonitorFrame extends JFrame{
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        //Create and set up the content pane.
-        SimpleTableView newContentPane = new SimpleTableView(model);
-        newContentPane.setOpaque(true); 
-        this.setContentPane(newContentPane);
+        JTabbedPane contentTabbedPane = new JTabbedPane();
+
+        SimpleTableView sessionsMonitoringTab = new SimpleTableView(model);
+        contentTabbedPane.addTab("Sessions", sessionsMonitoringTab);
+
+        ManagementPanel managementPanel = new ManagementPanel(this);
+        contentTabbedPane.addTab("Management", managementPanel);
+        
+        
+        contentTabbedPane.setOpaque(true);
+        this.setContentPane(contentTabbedPane);
     }
 
 }

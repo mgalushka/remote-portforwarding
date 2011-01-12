@@ -1,8 +1,6 @@
 package com.db.portforward.mgmt.gui;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -35,18 +33,7 @@ public class SimpleTableView extends JPanel {
         //Add the scroll pane to this panel.
         add(scrollPane);
 
-        JButton b = new JButton("Add");
-        b.setActionCommand("Add");
-        b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(e.getActionCommand().equals("Add")){
-//                    AddConnectionDialog dialog = new AddConnectionDialog(null);
-//                    dialog.
-                }
-            }
-        });
-        add(b);
+        
 
     }
 

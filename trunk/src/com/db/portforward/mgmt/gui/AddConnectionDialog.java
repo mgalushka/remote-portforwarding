@@ -9,15 +9,21 @@ import java.awt.*;
  */
 public class AddConnectionDialog extends JDialog {
 
-    private Container cp;
-
     public AddConnectionDialog(Frame owner) {
         super(owner, "Add Connection", true);
 
-        cp = getContentPane();
+        //Handle window closing correctly.
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        cp.setLayout(new FlowLayout(FlowLayout.CENTER));
+        JPanel contentPane = new JPanel();
 
-        cp.add(new JButton("Add"));
+        contentPane.add(new JTextField(""));
+        contentPane.add(new JTextField(""));
+
+        contentPane.add(new JButton("Add"));
+        contentPane.add(new JButton("Cancel"));
+
+        setContentPane(contentPane);
+        
     }
 }
