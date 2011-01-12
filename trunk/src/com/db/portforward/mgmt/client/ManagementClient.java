@@ -1,5 +1,6 @@
 package com.db.portforward.mgmt.client;
 
+import com.db.portforward.ApplicationException;
 import com.db.portforward.config.global.GlobalProperties;
 import static com.db.portforward.config.global.GlobalConstants.*;
 import static com.db.portforward.config.global.GlobalConstants.Client.*;
@@ -24,6 +25,7 @@ public class ManagementClient {
 
     private JMXConnector jmxc;
     private MBeanServerConnection mbsc;
+    private SessionChangeListener listener;
     
     void initManagementClient() throws IOException, MalformedObjectNameException, InstanceNotFoundException {
         log.debug("Create a JMXMP connector client and " +
@@ -33,16 +35,10 @@ public class ManagementClient {
                                     properties.getStringProperty(JMXMP_HOST),
                                     properties.getIntProperty(JMXMP_PORT));
 
-        this.jmxc = JMXConnectorFactory.connect(url, null);
+        jmxc = JMXConnectorFactory.connect(url, null);
 
         log.debug("Get an MBeanServerConnection");
-        this.mbsc = jmxc.getMBeanServerConnection();
-
-        log.debug("Domains:");
-        String domains[] = mbsc.getDomains();
-        for (int i = 0; i < domains.length; i++) {
-            log.debug("\tDomain[" + i + "] = " + domains[i]);
-        }
+        mbsc = jmxc.getMBeanServerConnection();
     }
 
     public SessionMgmtMBean getSessionMgmtBean(AbstractTableModel model) throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
@@ -56,18 +52,29 @@ public class ManagementClient {
                         SessionMgmtMBean.class,
                         false);
 
-        log.debug("Add notification listener");
-        SessionChangeListener listener = new SessionChangeListener(model);        
+        log.debug("Add remote notification listener");
+        listener = new SessionChangeListener(model);
         this.mbsc.addNotificationListener(sessionMBeanName, listener, null, null);
 
         return proxy;
     }
 
-    public void close() throws IOException{
-        // Close MBeanServer connection
-        log.debug("Close the connection to the server");
-        this.jmxc.close();
-        log.debug("Bye! Bye!");
+    public void close() throws ApplicationException{
+        try {
+            log.debug("Remove all remote notification listeners");
+            mbsc.removeNotificationListener(MgmtObjectsFactory.getSessionObjectName(), listener);
+        } catch (Exception ex){
+            log.error(ex);
+            throw new ApplicationException(ex);
+        }
+
+        try {
+            log.debug("Close the connection to the server");
+            jmxc.close();
+        } catch (Exception ex) {
+            log.error(ex);
+            throw new ApplicationException(ex);
+        }
     }
 
 

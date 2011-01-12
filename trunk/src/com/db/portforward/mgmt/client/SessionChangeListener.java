@@ -24,6 +24,5 @@ public class SessionChangeListener implements NotificationListener {
     public void handleNotification(Notification notification, Object handback) {
         log.debug(String.format("Notification: %s\n", notification.getMessage()));
         this.model.fireTableDataChanged();
-//        log.debug(String.format("Sessions details = %s", mbean.getActiveSessions()));
     }
 }
