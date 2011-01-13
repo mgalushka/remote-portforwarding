@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
+ * Main window of monitoring GUI application
  *
  * @author mgalushka
  */
@@ -29,8 +30,10 @@ public class RemoteMonitorFrame extends JFrame{
             @Override
             public void windowClosed(WindowEvent e) {
                 try {
-                    log.debug("Close client");
-                    client.close();
+                    if(client != null){
+                        log.debug("Close client");
+                        client.close();
+                    }
                 } catch (ApplicationException e1) {
                     log.error(e1);
                 }
@@ -44,11 +47,11 @@ public class RemoteMonitorFrame extends JFrame{
 
         JTabbedPane contentTabbedPane = new JTabbedPane();
 
-        SimpleTableView sessionsMonitoringTab = new SimpleTableView(model);
+        SessionsTableView sessionsMonitoringTab = new SessionsTableView(model);
         contentTabbedPane.addTab("Sessions", sessionsMonitoringTab);
 
-        ManagementPanel managementPanel = new ManagementPanel(this);
-        contentTabbedPane.addTab("Management", managementPanel);
+        ManagementView managementView = new ManagementView(this);
+        contentTabbedPane.addTab("Management", managementView);
         
         
         contentTabbedPane.setOpaque(true);

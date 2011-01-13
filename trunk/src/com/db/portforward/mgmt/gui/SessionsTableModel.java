@@ -1,12 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.mgmt.gui;
 
 import com.db.portforward.tracking.Session;
-import com.db.portforward.tracking.Manager;
 import com.db.portforward.mgmt.SessionMgmtMBean;
 
 import java.util.List;
@@ -20,17 +14,17 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author mgalushka
  */
-public class SimpleDataModel extends AbstractTableModel{
+public class SessionsTableModel extends AbstractTableModel{
 
     private static final long serialVersionUID = 1425493434978344286L;
 
-    private static Log log = LogFactory.getLog(SimpleDataModel.class);
+    private static Log log = LogFactory.getLog(SessionsTableModel.class);
 
     private SessionMgmtMBean mbean;
     private List<Session> cachedSessionsList = new ArrayList<Session>();
 
 
-    public SimpleDataModel() {
+    public SessionsTableModel() {
     }
 
     public void setMbean(SessionMgmtMBean mbean) {
@@ -38,7 +32,7 @@ public class SimpleDataModel extends AbstractTableModel{
     }
 
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     public int getRowCount() {
@@ -49,8 +43,9 @@ public class SimpleDataModel extends AbstractTableModel{
         Session s = cachedSessionsList.get(row);
         switch(col){
             case 0: return Integer.toString(row+1);
-            case 1: return s.getRecord().getSourcePort();
-            case 2: return s.getRecord().getTargetUrl();
+            case 1: return s.getClientAddress();            
+            case 2: return s.getRecord().getSourcePort();
+            case 3: return s.getRecord().getTargetUrl();
             default: return "";
         }
     }
