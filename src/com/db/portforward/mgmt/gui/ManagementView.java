@@ -6,14 +6,15 @@ import org.apache.commons.logging.*;
 
 
 /**
+ * Panel represented management screen on GUI
  *
  * @author mgalushka
  */
-public class ManagementPanel extends JPanel{
+public class ManagementView extends JPanel{
 
-    private static Log log = LogFactory.getLog(ManagementPanel.class);
+    private static Log log = LogFactory.getLog(ManagementView.class);
 
-    public ManagementPanel(final JFrame frame) {
+    public ManagementView(final JFrame frame) {
         super();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));

@@ -8,20 +8,25 @@ import javax.swing.table.*;
  *
  * @author mgalushka
  */
-public class SimpleTableView extends JPanel {
+public class SessionsTableView extends JPanel {
 
-    public SimpleTableView(TableModel model){
+    private static final String [] HEADERS =
+            new String[] {"#", "Client IP", "Source Port", "Target URL"};
+
+    public SessionsTableView(TableModel model){
         super(new GridLayout(1,0));
 
         TableColumnModel columnModel = new DefaultTableColumnModel();
-        columnModel.addColumn(new TableColumn(0));
-        columnModel.addColumn(new TableColumn(1));
-        columnModel.addColumn(new TableColumn(2));
-        columnModel.getColumn(0).setHeaderValue("#");
+
+        int headerId = 0;
+        for(String header : HEADERS){
+            TableColumn column = new TableColumn(headerId++);
+            column.setHeaderValue(header);
+            columnModel.addColumn(column);
+        }
         columnModel.getColumn(0).setMaxWidth(25);
-        columnModel.getColumn(1).setHeaderValue("Source Port");
         columnModel.getColumn(1).setMaxWidth(70);
-        columnModel.getColumn(2).setHeaderValue("Target URL");
+        columnModel.getColumn(2).setMaxWidth(70);
 
         final JTable table = new JTable(model, columnModel);
 

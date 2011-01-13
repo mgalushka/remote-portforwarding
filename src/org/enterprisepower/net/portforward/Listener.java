@@ -71,7 +71,7 @@ public class Listener extends Thread{
 
                 log.trace("accepted client connection");
                 Socket target = connector.openSocket();
-                Session session = new Session(record);
+                Session session = new Session(record, String.valueOf(source.getInetAddress()));
                 new Processor(session, source, target, cleaner).process();
             } catch (IOException e) {
                 String msg = "Failed to accept client connection on port "

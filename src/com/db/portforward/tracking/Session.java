@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.db.portforward.tracking;
 
 import com.db.portforward.config.PortForwardRecord;
@@ -18,13 +13,23 @@ public class Session implements Serializable{
 
     private static final long serialVersionUID = 123456L;
 
+    private String clientAddress;
     private PortForwardRecord record;
 
-    public Session(PortForwardRecord record) {
+    public Session(PortForwardRecord record, String clientAddress) {
         this.record = record;
+        this.clientAddress = clientAddress;
     }
 
     public Session() {
+    }
+
+    public String getClientAddress() {
+        return clientAddress;
+    }
+
+    public void setClientAddress(String clientAddress) {
+        this.clientAddress = clientAddress;
     }
 
     public PortForwardRecord getRecord() {

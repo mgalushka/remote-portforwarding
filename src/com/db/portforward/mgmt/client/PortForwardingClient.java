@@ -28,7 +28,7 @@ public class PortForwardingClient {
             final ManagementClient client = new ManagementClient();
             client.initManagementClient();
 
-            final SimpleDataModel model = new SimpleDataModel();
+            final SessionsTableModel model = new SessionsTableModel();
             final SessionMgmtMBean sessionMgmtBean = client.getSessionMgmtBean(model);
             model.setMbean(sessionMgmtBean);
 
