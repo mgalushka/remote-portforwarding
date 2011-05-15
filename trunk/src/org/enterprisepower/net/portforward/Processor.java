@@ -57,8 +57,6 @@ public class Processor implements Cleanable {
         req = new Copier(source, target);
         res = new Copier(target, source);
 
-//        new Thread(req).start();
-//        new Thread(res).start();
         threadUtils.scheduleThread(req);
         threadUtils.scheduleThread(res);
         

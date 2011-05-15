@@ -56,10 +56,13 @@ public class Listener extends Thread{
         serverSocket.setReuseAddress(true);
         serverSocket.bind(from);
 
-        log.info("Ready to accept client connection from " + from.getPort()
-                + " to " + to.getHostName() + ":" + to.getPort());
+        log.info(String.format("Ready to accept client connections from %s:%d to %s:%d",
+                                from.getHostName(), from.getPort(), to.getHostName(), to.getPort()));
     }
 
+    /**
+     * This should never stop processing client requests!
+     */
     public void run() {
         Socket source = null;
         threadUtils.scheduleThread(cleaner);
@@ -69,13 +72,14 @@ public class Listener extends Thread{
                 source = serverSocket.accept();
                 if(this.isInterrupted()) return;
 
-                log.trace("accepted client connection");
+                log.trace(String.format("Accepted client connection from %s:%d on port %d",
+                                from.getHostName(), from.getPort(), to.getPort()));
                 Socket target = connector.openSocket();
                 Session session = new Session(record, String.valueOf(source.getInetAddress()));
                 new Processor(session, source, target, cleaner).process();
             } catch (IOException e) {
-                String msg = "Failed to accept client connection on port "
-                        + from.getPort();
+                String msg = String.format("Failed to accept client connection from %s:%d on port %d",
+                                from.getHostName(), from.getPort(), to.getPort());
                 log.error(msg, e);
                 try {
                     if (source != null && !source.isClosed()) {
@@ -83,9 +87,9 @@ public class Listener extends Thread{
                     }
                 } catch (IOException e1) {
                     log.error("Error during closing server socket attempt ", e);
-                    throw new ListenerException(e1);
+                    //throw new ListenerException(e1);
                 }
-                throw new ListenerException(e);
+                //throw new ListenerException(e);
             }
         }
     }
