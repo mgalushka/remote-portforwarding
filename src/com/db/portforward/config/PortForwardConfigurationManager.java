@@ -22,7 +22,7 @@ public class PortForwardConfigurationManager implements ConfigurationManager<Por
     private File storage;
 
     /**
-     * Factory method to return cingle instance of configuration manager
+     * Factory method to return single instance of configuration manager
      * @return ConfigurationManager instance
      * @throws ConfigurationException if config does not exist
      */
@@ -81,10 +81,14 @@ public class PortForwardConfigurationManager implements ConfigurationManager<Por
         String line = "";
         while((line = br.readLine()) != null){
             log.debug(line);
-            if(!line.startsWith(COMMENT_SYMBOL)){
-                String sourcePort = line.substring(0, line.indexOf(":"));
-                String targetUrl = line.substring(sourcePort.length()+1);
-                this.config.add(new PortForwardRecord(sourcePort, targetUrl));
+            if(!line.startsWith(COMMENT_SYMBOL) && !"".equals(line.trim())){
+                try {
+                    String sourcePort = line.substring(0, line.indexOf(":"));
+                    String targetUrl = line.substring(sourcePort.length()+1);
+                    this.config.add(new PortForwardRecord(sourcePort, targetUrl));
+                } catch (Exception e) {
+                    log.error(String.format("Exception during config parsing: %s", e));
+                }
             }
         }
     }
