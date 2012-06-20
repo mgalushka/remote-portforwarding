@@ -29,8 +29,8 @@ public class ConnectionsTableView extends JPanel {
             column.setHeaderValue(header);
             columnModel.addColumn(column);
         }
-//        columnModel.getColumn(0).setMaxWidth(25);
-//        columnModel.getColumn(1).setMaxWidth(70);
+        columnModel.getColumn(0).setMaxWidth(25);
+        columnModel.getColumn(1).setMaxWidth(150);
 //        columnModel.getColumn(2).setMaxWidth(70);
 
         final JTable table = new JTable(model, columnModel);

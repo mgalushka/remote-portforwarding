@@ -7,7 +7,6 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,7 +32,7 @@ public class ConnectionsTableModel extends AbstractTableModel {
     }
 
     public int getColumnCount() {
-        return 4;
+        return 3;
     }
 
     public int getRowCount() {
