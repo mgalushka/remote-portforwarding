@@ -5,6 +5,8 @@ import com.maximgalushka.portforward.mgmt.client.ManagementClient;
 import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import javax.management.*;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.table.AbstractTableModel;
@@ -50,10 +52,13 @@ public class RemoteMonitorFrame extends JFrame{
         SessionsTableView sessionsMonitoringTab = new SessionsTableView(model);
         contentTabbedPane.addTab("Sessions", sessionsMonitoringTab);
 
-        ManagementView managementView = new ManagementView(this);
-        contentTabbedPane.addTab("Management", managementView);
-        
-        
+        try {
+            ManagementView managementView = new ManagementView(this, client.getConnectionMgmtBean());
+            contentTabbedPane.addTab("Management", managementView);
+        } catch (Exception e) {
+            log.error(String.format("Cannot create Connection MGMT bean: %s", e.getCause()));
+        }
+
         contentTabbedPane.setOpaque(true);
         this.setContentPane(contentTabbedPane);
     }

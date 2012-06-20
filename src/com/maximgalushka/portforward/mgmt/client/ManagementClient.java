@@ -4,6 +4,8 @@ import com.maximgalushka.portforward.ApplicationException;
 import com.maximgalushka.portforward.config.global.GlobalProperties;
 import static com.maximgalushka.portforward.config.global.GlobalConstants.*;
 import static com.maximgalushka.portforward.config.global.GlobalConstants.Client.*;
+
+import com.maximgalushka.portforward.mgmt.ConnectionMgmtMBean;
 import com.maximgalushka.portforward.mgmt.SessionMgmtMBean;
 import com.maximgalushka.portforward.utils.MgmtObjectsFactory;
 import java.io.IOException;
@@ -41,7 +43,8 @@ public class ManagementClient {
         mbsc = jmxc.getMBeanServerConnection();
     }
 
-    public SessionMgmtMBean getSessionMgmtBean(AbstractTableModel model) throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
+    public SessionMgmtMBean getSessionMgmtBean(AbstractTableModel model)
+            throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
 
         log.debug("Get SessionMgmt MBean from server...");
         ObjectName sessionMBeanName = MgmtObjectsFactory.getSessionObjectName();
@@ -55,6 +58,24 @@ public class ManagementClient {
         log.debug("Add remote notification listener");
         listener = new SessionChangeListener(model);
         this.mbsc.addNotificationListener(sessionMBeanName, listener, null, null);
+
+        return proxy;
+    }
+
+    public ConnectionMgmtMBean getConnectionMgmtBean(/* TODO: add GUI model */)
+            throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
+
+        log.debug("Get ConnectionMgmt MBean from server...");
+        ObjectName connectionMBeanName = MgmtObjectsFactory.getConnectionObjectName();
+        ConnectionMgmtMBean proxy =
+                MBeanServerInvocationHandler.newProxyInstance(
+                        mbsc,
+                        connectionMBeanName,
+                        ConnectionMgmtMBean.class,
+                        false);
+
+        log.debug("Add remote notification listener");
+        this.mbsc.addNotificationListener(connectionMBeanName, listener, null, null);
 
         return proxy;
     }
