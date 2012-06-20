@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="c3f8a021-77c3-4797-852a-0122d768e11e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/portforward.iws" afterPath="$PROJECT_DIR$/portforward.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmt.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmt.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmtMBean.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmtMBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/ManagementClient.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/ManagementClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/PortForwardingClient.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/PortForwardingClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ManagementView.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ManagementView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/RemoteMonitorFrame.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/RemoteMonitorFrame.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\maximgalushka\portforward\mgmt\client\SessionChangeListener.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/ModelChangeListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableModel.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableView.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableView.java" />
     </list>
     <ignored path="portforward.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,24 +90,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ConnectionMgmtMBean.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmtMBean.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="28" selection-start="943" selection-end="943" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConnectionMgmt.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmt.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="56" selection-start="2507" selection-end="2507" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ModelChangeListener.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/ModelChangeListener.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -127,10 +102,64 @@
       <file leaf-file-name="ConnectionsTableView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="13" selection-start="339" selection-end="339" vertical-scroll-proportion="0.0">
+            <state line="33" column="59" selection-start="1021" selection-end="1021" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GlobalConstants.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/global/GlobalConstants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="19" selection-start="128" selection-end="128" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConfigurationManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/ConfigurationManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="0" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PortForwardConfigurationManager.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/PortForwardConfigurationManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="64" column="18" selection-start="2082" selection-end="2082" vertical-scroll-proportion="0.7580645">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PathUtils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/PathUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="30" column="23" selection-start="861" selection-end="861" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PortForwardConfigurationManagerTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/com/maximgalushka/portforward/config/PortForwardConfigurationManagerTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="35" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PortForwardRecord.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/PortForwardRecord.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="31" selection-start="475" selection-end="475" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -138,56 +167,19 @@
       <file leaf-file-name="ManagementView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ManagementView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="35" selection-start="1513" selection-end="1513" vertical-scroll-proportion="0.0">
+            <state line="18" column="11" selection-start="437" selection-end="437" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractTableModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.6.0_32/src.zip!/javax/swing/table/AbstractTableModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="180" column="0" selection-start="5525" selection-end="5525" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConnectionsTableModel.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ConnectionsTableModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="63" selection-start="449" selection-end="449" vertical-scroll-proportion="0.38709676">
+            <state line="8" column="40" selection-start="333" selection-end="333" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#707#726#0" expanded="true" />
+                <element signature="e#678#697#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Application.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/Application.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="52" selection-start="1629" selection-end="1629" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ManagementServer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/ManagementServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="58" selection-start="2163" selection-end="2163" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MgmtObjectsFactory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/MgmtObjectsFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="29" selection-start="524" selection-end="524" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -205,7 +197,6 @@
         <option value="$PROJECT_DIR$/src/client.properties" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/AddConnectionDialog.java" />
-        <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableView.java" />
         <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/ConnectionsChangeListener.java" />
         <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/SessionChangeListener.java" />
         <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/ModelChangeListener.java" />
@@ -215,8 +206,9 @@
         <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/MgmtObjectsFactory.java" />
         <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmtMBean.java" />
         <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmt.java" />
-        <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableModel.java" />
         <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ManagementView.java" />
+        <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableModel.java" />
+        <option value="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableView.java" />
       </list>
     </option>
   </component>
@@ -1553,7 +1545,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47218788" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.45982695" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2012987" sideWeight="0.63906056" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34857848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1561,12 +1553,12 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.58467245" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30762988" sideWeight="0.4264524" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17451298" sideWeight="0.59456116" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30275974" sideWeight="0.2645241" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17451298" sideWeight="0.68479604" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30762988" sideWeight="0.5648949" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30275974" sideWeight="0.2669963" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17451298" sideWeight="0.5067985" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4932015" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35970333" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32881773" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1642,48 +1634,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/PortForwardConfigurationManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="222" selection-end="222" vertical-scroll-proportion="-0.38379532">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/PortForwardRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="223" selection-end="223" vertical-scroll-proportion="-1.6092438">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/global/GlobalProperties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="13" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/tracking/SessionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="33" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/enterprisepower/net/portforward/Forwarder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="22" selection-start="657" selection-end="657" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="52" selection-start="1629" selection-end="1629" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/MgmtObjectsFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="29" selection-start="524" selection-end="524" vertical-scroll-proportion="0.0">
@@ -1726,36 +1676,77 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableView.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.6.0_32/src.zip!/javax/swing/table/AbstractTableModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="339" selection-end="339" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="180" column="0" selection-start="5525" selection-end="5525" vertical-scroll-proportion="0.33242133">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ManagementView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="35" selection-start="1513" selection-end="1513" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.6.0_32/src.zip!/javax/swing/table/AbstractTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="0" selection-start="5525" selection-end="5525" vertical-scroll-proportion="0.0">
+        <state line="18" column="11" selection-start="437" selection-end="437" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="63" selection-start="449" selection-end="449" vertical-scroll-proportion="0.38709676">
+        <state line="8" column="40" selection-start="333" selection-end="333" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#678#697#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ConnectionsTableView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="59" selection-start="1021" selection-end="1021" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#707#726#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/global/GlobalConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="19" selection-start="128" selection-end="128" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/ConfigurationManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/PortForwardRecord.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="31" selection-start="475" selection-end="475" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/maximgalushka/portforward/config/PortForwardConfigurationManagerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="35" selection-start="692" selection-end="692" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/PathUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="23" selection-start="861" selection-end="861" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/PortForwardConfigurationManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="18" selection-start="2082" selection-end="2082" vertical-scroll-proportion="0.7580645">
+          <folding />
         </state>
       </provider>
     </entry>
