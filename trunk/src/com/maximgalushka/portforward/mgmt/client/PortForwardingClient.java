@@ -1,6 +1,7 @@
 package com.maximgalushka.portforward.mgmt.client;
 
 import com.maximgalushka.portforward.config.global.GlobalProperties;
+import com.maximgalushka.portforward.mgmt.ConnectionMgmtMBean;
 import com.maximgalushka.portforward.mgmt.gui.*;
 import com.maximgalushka.portforward.mgmt.SessionMgmtMBean;
 import com.maximgalushka.portforward.utils.*;
@@ -28,13 +29,17 @@ public class PortForwardingClient {
             final ManagementClient client = new ManagementClient();
             client.initManagementClient();
 
-            final SessionsTableModel model = new SessionsTableModel();
-            final SessionMgmtMBean sessionMgmtBean = client.getSessionMgmtBean(model);
-            model.setMbean(sessionMgmtBean);
+            final SessionsTableModel sessionsModel = new SessionsTableModel();
+            final SessionMgmtMBean sessionMgmtBean = client.getSessionMgmtBean(sessionsModel);
+            sessionsModel.setMbean(sessionMgmtBean);
+
+            final ConnectionsTableModel connectionsModel = new ConnectionsTableModel();
+            final ConnectionMgmtMBean connectionMgmtBean = client.getConnectionMgmtBean(connectionsModel);
+            connectionsModel.setMbean(connectionMgmtBean);
 
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    createAndShowGUI(model, client);
+                    createAndShowGUI(sessionsModel, connectionsModel, client);
                 }
             });
 
@@ -44,8 +49,13 @@ public class PortForwardingClient {
         }
     }
 
-    private static void createAndShowGUI(AbstractTableModel model, final ManagementClient client) {
-        final RemoteMonitorFrame frame = new RemoteMonitorFrame(model, client);
+    private static void createAndShowGUI(AbstractTableModel sessionsModel,
+                                         AbstractTableModel connectionsModel,
+                                         final ManagementClient client) {
+
+        final RemoteMonitorFrame frame = new RemoteMonitorFrame(sessionsModel,
+                                                                connectionsModel,
+                                                                client);
 
         //Display the window
         frame.pack();

@@ -4,6 +4,8 @@ import com.maximgalushka.portforward.config.ConfigurationException;
 import com.maximgalushka.portforward.config.PortForwardRecord;
 
 import javax.management.NotificationEmitter;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Maxim Galushka
@@ -23,4 +25,9 @@ public interface ConnectionMgmtMBean extends NotificationEmitter {
      * @param connection connection details to drop
      */
     void dropConnection(PortForwardRecord connection);
+
+    /**
+     * @return list of all connections currently configured
+     */
+    List<PortForwardRecord> listConnections();
 }

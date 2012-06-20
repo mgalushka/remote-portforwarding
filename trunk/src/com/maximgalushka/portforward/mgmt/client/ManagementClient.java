@@ -27,7 +27,9 @@ public class ManagementClient {
 
     private JMXConnector jmxc;
     private MBeanServerConnection mbsc;
-    private SessionChangeListener listener;
+
+    private ModelChangeListener sessionsListener;
+    private ModelChangeListener connectionsListener;
     
     void initManagementClient() throws IOException, MalformedObjectNameException, InstanceNotFoundException {
         log.debug("Create a JMXMP connector client and " +
@@ -56,13 +58,13 @@ public class ManagementClient {
                         false);
 
         log.debug("Add remote notification listener");
-        listener = new SessionChangeListener(model);
-        this.mbsc.addNotificationListener(sessionMBeanName, listener, null, null);
+        sessionsListener = new ModelChangeListener(model);
+        this.mbsc.addNotificationListener(sessionMBeanName, sessionsListener, null, null);
 
         return proxy;
     }
 
-    public ConnectionMgmtMBean getConnectionMgmtBean(/* TODO: add GUI model */)
+    public ConnectionMgmtMBean getConnectionMgmtBean(AbstractTableModel connectionsModel)
             throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException, MBeanException, NotCompliantMBeanException, IOException, InstanceNotFoundException {
 
         log.debug("Get ConnectionMgmt MBean from server...");
@@ -75,7 +77,9 @@ public class ManagementClient {
                         false);
 
         log.debug("Add remote notification listener");
-        this.mbsc.addNotificationListener(connectionMBeanName, listener, null, null);
+
+        connectionsListener = new ModelChangeListener(connectionsModel);
+        this.mbsc.addNotificationListener(connectionMBeanName, connectionsListener, null, null);
 
         return proxy;
     }
@@ -83,7 +87,8 @@ public class ManagementClient {
     public void close() throws ApplicationException{
         try {
             log.debug("Remove all remote notification listeners");
-            mbsc.removeNotificationListener(MgmtObjectsFactory.getSessionObjectName(), listener);
+            mbsc.removeNotificationListener(MgmtObjectsFactory.getSessionObjectName(), sessionsListener);
+            mbsc.removeNotificationListener(MgmtObjectsFactory.getSessionObjectName(), connectionsListener);
         } catch (Exception ex){
             log.error(ex);
             throw new ApplicationException(ex);
