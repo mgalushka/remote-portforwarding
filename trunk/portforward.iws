@@ -2,61 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="c3f8a021-77c3-4797-852a-0122d768e11e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Portforward.iml" afterPath="$PROJECT_DIR$/Portforward.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client.bat" afterPath="$PROJECT_DIR$/client.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/configs/Client.properties" afterPath="$PROJECT_DIR$/nbproject/configs/Client.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/portforward.ipr" afterPath="$PROJECT_DIR$/portforward.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/portforward.iws" afterPath="$PROJECT_DIR$/portforward.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client.properties" afterPath="$PROJECT_DIR$/src/client.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/enterprisepower/net/portforward/Forwarder.java" afterPath="$PROJECT_DIR$/src/org/enterprisepower/net/portforward/Forwarder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/enterprisepower/net/portforward/Listener.java" afterPath="$PROJECT_DIR$/src/org/enterprisepower/net/portforward/Listener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/enterprisepower/net/portforward/Processor.java" afterPath="$PROJECT_DIR$/src/org/enterprisepower/net/portforward/Processor.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\Application.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/Application.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\ApplicationException.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/ApplicationException.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\ManagementServer.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/ManagementServer.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\config\ConfigurationException.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/config/ConfigurationException.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\config\ConfigurationManager.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/config/ConfigurationManager.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\config\PortForwardConfigurationManager.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/config/PortForwardConfigurationManager.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\config\PortForwardRecord.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/config/PortForwardRecord.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\config\global\GlobalConstants.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/config/global/GlobalConstants.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\config\global\GlobalProperties.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/config/global/GlobalProperties.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\ConnectionMgmt.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmt.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\ConnectionMgmtMBean.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/ConnectionMgmtMBean.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\SessionMgmt.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/SessionMgmt.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\SessionMgmtMBean.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/SessionMgmtMBean.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\client\ManagementClient.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/ManagementClient.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\client\PortForwardingClient.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/PortForwardingClient.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\client\SessionChangeListener.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client/SessionChangeListener.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\gui\AddConnectionDialog.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/AddConnectionDialog.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\gui\ManagementView.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/ManagementView.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\gui\RemoteMonitorFrame.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/RemoteMonitorFrame.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\gui\SessionsTableModel.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/SessionsTableModel.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\gui\SessionsTableView.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui/SessionsTableView.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\tracking\Manager.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/tracking/Manager.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\tracking\Session.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/tracking/Session.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\tracking\SessionManager.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/tracking/SessionManager.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\utils\MgmtObjectsFactory.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/MgmtObjectsFactory.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\utils\PathUtils.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/PathUtils.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\utils\ThreadUtils.java" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/ThreadUtils.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\log4j.properties" afterPath="$PROJECT_DIR$/resources/log4j.properties" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\test\com\db\portforward\ApplicationTest.java" afterPath="$PROJECT_DIR$/test/com/maximgalushka/portforward/ApplicationTest.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\test\com\db\portforward\config\PortForwardConfigurationManagerTest.java" afterPath="$PROJECT_DIR$/test/com/maximgalushka/portforward/config/PortForwardConfigurationManagerTest.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\test\com\db\portforward\utils\ThreadUtilsTest.java" afterPath="$PROJECT_DIR$/test/com/maximgalushka/portforward/utils/ThreadUtilsTest.java" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\config\global" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/config/global" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\config" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/config" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\client" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/client" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt\gui" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt/gui" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\mgmt" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/mgmt" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\tracking" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/tracking" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward\utils" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward/utils" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db\portforward" afterPath="$PROJECT_DIR$/src/com/maximgalushka/portforward" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\com\db" afterPath="$PROJECT_DIR$/src/com/maximgalushka" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\src\portforward.cfg" afterPath="$PROJECT_DIR$/resources/portforward.cfg" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\test\com\db\portforward\config" afterPath="$PROJECT_DIR$/test/com/maximgalushka/portforward/config" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\test\com\db\portforward\utils" afterPath="$PROJECT_DIR$/test/com/maximgalushka/portforward/utils" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\test\com\db\portforward" afterPath="$PROJECT_DIR$/test/com/maximgalushka/portforward" />
-      <change type="MOVED" beforePath="D:\projects\remote-portforwarding\test\com\db" afterPath="$PROJECT_DIR$/test/com/maximgalushka" />
     </list>
     <ignored path="portforward.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -150,10 +98,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PathUtils.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PathUtils.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/PathUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="23" selection-start="861" selection-end="861" vertical-scroll-proportion="0.5567715">
+            <state line="32" column="78" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="client.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/client.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="server.properties" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/server.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="73" selection-start="18" selection-end="18" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -172,24 +138,6 @@
         <entry file="file://$PROJECT_DIR$/resources/log4j.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state line="7" column="26" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConfigurationManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/ConfigurationManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="17" selection-start="227" selection-end="227" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConfigurationException.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/config/ConfigurationException.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="13" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -726,6 +674,54 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="enterprisepower" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="portforward" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="remote-portforwarding" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="maximgalushka" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="portforward" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="portforward" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="remote-portforwarding" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -746,7 +742,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
@@ -1021,7 +1017,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1288" height="956" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1034,10 +1030,10 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1525974" sideWeight="0.35475895" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1525974" sideWeight="0.5512979" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20535715" sideWeight="0.35475895" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.645241" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2556818" sideWeight="0.5512979" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4487021" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32881773" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1124,18 +1120,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/enterprisepower/net/portforward/Listener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="37" selection-start="1338" selection-end="1338" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/enterprisepower/net/NetUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="0" selection-start="2854" selection-end="2854" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/enterprisepower/net/portforward/TargetConnector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="46" selection-start="752" selection-end="752" vertical-scroll-proportion="0.0">
@@ -1229,7 +1213,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/maximgalushka/portforward/utils/PathUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="23" selection-start="861" selection-end="861" vertical-scroll-proportion="0.5567715">
+        <state line="32" column="78" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="73" selection-start="18" selection-end="18" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1292,6 +1290,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -1299,7 +1298,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>jmx</last-edited>
+          <last-edited>Maven: commons-logging:commons-logging:1.1.1</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
