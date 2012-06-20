@@ -4,13 +4,13 @@ import com.maximgalushka.portforward.config.PortForwardRecord;
 import com.maximgalushka.portforward.config.ConfigurationException;
 import com.maximgalushka.portforward.utils.ThreadUtils;
 
+import javax.management.Notification;
 import javax.management.NotificationBroadcasterSupport;
 
 import org.enterprisepower.net.portforward.Listener;
 
 import java.io.IOException;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * @author Maxim Galushka
@@ -24,7 +24,10 @@ public class ConnectionMgmt
     private Set<PortForwardRecord> records = new HashSet<PortForwardRecord>();
 
     private static ThreadUtils threadUtils = ThreadUtils.getInstance();
-    
+
+    private static final String CONNECTION_ADDED = "connection.add";
+    private static final String CONNECTION_REMOVED = "connection.remove";
+
     @Override
     public boolean createConnection(PortForwardRecord connection)
             throws ConfigurationException {
@@ -39,6 +42,11 @@ public class ConnectionMgmt
             listener = new Listener(connection);
             listeners.add(listener);
             records.add(connection);
+
+            Notification addConnectionNotification =
+                    new Notification(CONNECTION_ADDED, this, 0, "New Connection was added");
+            sendNotification(addConnectionNotification);
+
         } catch (IOException e) {
             throw new ConfigurationException("Cannot initiate connection, " +
                     "creating Listener error", e);
@@ -54,6 +62,15 @@ public class ConnectionMgmt
         
         listeners.remove(listener);
         records.remove(connection);
+
+        Notification removeConnectionNotification =
+                new Notification(CONNECTION_REMOVED, this, 0, "New Connection was dropped");
+        sendNotification(removeConnectionNotification);
+    }
+
+    @Override
+    public List<PortForwardRecord> listConnections() {
+        return new ArrayList<PortForwardRecord>(records);
     }
 
     private Listener getListener(PortForwardRecord record){

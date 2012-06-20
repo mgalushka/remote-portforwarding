@@ -23,7 +23,8 @@ public class RemoteMonitorFrame extends JFrame{
 
     private static Log log = LogFactory.getLog(RemoteMonitorFrame.class);
 
-    public RemoteMonitorFrame(final AbstractTableModel model,
+    public RemoteMonitorFrame(final AbstractTableModel sessionsModel,
+                              final AbstractTableModel connectionsModel,
                               final ManagementClient client) throws HeadlessException {
         
         super("Remote monitoring");
@@ -49,11 +50,13 @@ public class RemoteMonitorFrame extends JFrame{
 
         JTabbedPane contentTabbedPane = new JTabbedPane();
 
-        SessionsTableView sessionsMonitoringTab = new SessionsTableView(model);
+        SessionsTableView sessionsMonitoringTab = new SessionsTableView(sessionsModel);
         contentTabbedPane.addTab("Sessions", sessionsMonitoringTab);
 
         try {
-            ManagementView managementView = new ManagementView(this, client.getConnectionMgmtBean());
+            ManagementView managementView = new ManagementView(this, connectionsModel,
+                                                                client.getConnectionMgmtBean(connectionsModel));
+
             contentTabbedPane.addTab("Management", managementView);
         } catch (Exception e) {
             log.error(String.format("Cannot create Connection MGMT bean: %s", e.getCause()));

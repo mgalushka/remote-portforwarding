@@ -2,6 +2,7 @@ package com.maximgalushka.portforward.mgmt.gui;
 
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 
 import com.maximgalushka.portforward.mgmt.ConnectionMgmtMBean;
 import org.apache.commons.logging.*;
@@ -16,11 +17,18 @@ public class ManagementView extends JPanel{
 
     private static Log log = LogFactory.getLog(ManagementView.class);
 
-    public ManagementView(final JFrame frame, final ConnectionMgmtMBean connectionMBean) {
+    public ManagementView(final JFrame frame,
+                          AbstractTableModel connectionsModel,
+                          final ConnectionMgmtMBean connectionMBean) {
         super();
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
+        // ======== CONNECTIONS VIEW ==========//
+        ConnectionsTableView connectionsView = new ConnectionsTableView(connectionsModel);
+        add(connectionsView);
+
+        // ======== ADD BUTTON ==========//
         JButton b = new JButton("Add");
         b.setActionCommand("Add");
         b.addActionListener(new ActionListener() {
@@ -35,6 +43,8 @@ public class ManagementView extends JPanel{
             }
         });
         add(b);
+
+        connectionsModel.fireTableDataChanged();
     }
 
 }

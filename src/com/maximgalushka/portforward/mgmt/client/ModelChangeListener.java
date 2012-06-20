@@ -11,13 +11,13 @@ import javax.swing.table.AbstractTableModel;
  * @author Maxim Galushka
  * @since 04.01.2011
  */
-public class SessionChangeListener implements NotificationListener {
+public class ModelChangeListener implements NotificationListener {
 
-    private static Log log = LogFactory.getLog(SessionChangeListener.class);
+    private static Log log = LogFactory.getLog(ModelChangeListener.class);
 
     private AbstractTableModel model;
 
-    public SessionChangeListener(AbstractTableModel model){
+    public ModelChangeListener(AbstractTableModel model){
         this.model = model;
     }
 
