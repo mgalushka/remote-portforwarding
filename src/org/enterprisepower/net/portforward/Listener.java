@@ -15,9 +15,9 @@
  */
 package org.enterprisepower.net.portforward;
 
-import com.db.portforward.config.PortForwardRecord;
-import com.db.portforward.tracking.Session;
-import com.db.portforward.utils.ThreadUtils;
+import com.maximgalushka.portforward.config.PortForwardRecord;
+import com.maximgalushka.portforward.tracking.Session;
+import com.maximgalushka.portforward.utils.ThreadUtils;
 import org.apache.commons.logging.*;
 import java.net.*;
 import java.io.*;

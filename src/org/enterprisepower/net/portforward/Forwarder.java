@@ -1,9 +1,9 @@
 package org.enterprisepower.net.portforward;
 
-import com.db.portforward.Application;
-import com.db.portforward.ApplicationException;
-import com.db.portforward.config.PortForwardConfigurationManager;
-import com.db.portforward.config.ConfigurationException;
+import com.maximgalushka.portforward.Application;
+import com.maximgalushka.portforward.ApplicationException;
+import com.maximgalushka.portforward.config.PortForwardConfigurationManager;
+import com.maximgalushka.portforward.config.ConfigurationException;
 
 /**
  * 
