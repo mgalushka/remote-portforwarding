@@ -1,5 +1,6 @@
 package com.maximgalushka.portforward.mgmt.gui;
 
+import com.maximgalushka.portforward.mgmt.ConnectionMgmtMBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -23,7 +24,9 @@ public class AddConnectionDialog extends JDialog implements ActionListener{
 
     private PortForwardRecord record;
 
-    public AddConnectionDialog(Frame owner) {
+    private ConnectionMgmtMBean connectionMBean;
+
+    public AddConnectionDialog(Frame owner, ConnectionMgmtMBean connectionMBean) {
         super(owner, "Add Connection", true);
 
         setResizable(false);
@@ -75,6 +78,8 @@ public class AddConnectionDialog extends JDialog implements ActionListener{
         
         setContentPane(contentPane);
 
+        this.connectionMBean = connectionMBean;
+
     }
 
     public PortForwardRecord getRecord() {
@@ -87,8 +92,24 @@ public class AddConnectionDialog extends JDialog implements ActionListener{
             dispose();
         }
         if(e.getActionCommand().equals("Add")){
-            log.debug("Add action called");
+            log.debug(String.format("Add action called: [%s]", e));
+
+            if(validateServerPortInput()){
+                connectionMBean.createConnection(
+                        new PortForwardRecord(portTextField.getText(),
+                        urlTextField.getText()));
+            }
+            else{
+                // TODO: error message or some error handling
+            }
+
             dispose();
         }
+    }
+
+    private boolean validateServerPortInput(){
+        // TODO : validation
+        log.debug(String.format("Here is some validation..."));
+        return true;
     }
 }
