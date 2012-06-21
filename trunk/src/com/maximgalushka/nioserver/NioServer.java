@@ -32,10 +32,14 @@ public class NioServer implements Runnable {
     // The buffer into which we'll read data when it's available
     private ByteBuffer readBuffer = ByteBuffer.allocate(8192);
 
-    public NioServer(InetAddress hostAddress, int port) throws IOException {
+    // worker thread
+    private ForwardWorker worker;
+
+    public NioServer(InetAddress hostAddress, int port, ForwardWorker worker) throws IOException {
         this.hostAddress = hostAddress;
         this.port = port;
         this.selector = this.initSelector();
+        this.worker = worker;
     }
 
     private Selector initSelector() throws IOException {
@@ -59,7 +63,8 @@ public class NioServer implements Runnable {
 
     public static void main(String[] args) {
         try {
-            new Thread(new NioServer(null, 9090)).start();
+            ForwardWorker w = new ForwardWorker();
+            new Thread(new NioServer(null, 9090, w)).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,12 +90,47 @@ public class NioServer implements Runnable {
                     // Check what event is available and deal with it
                     if (key.isAcceptable()) {
                         this.accept(key);
+                    } else if (key.isReadable()) {
+                        this.read(key);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void read(SelectionKey key) throws IOException {
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+
+        // Clear out our read buffer so it's ready for new data
+        this.readBuffer.clear();
+
+        // Attempt to read off the channel
+        int numRead;
+        try {
+            numRead = socketChannel.read(this.readBuffer);
+        } catch (IOException e) {
+            // The remote forcibly closed the connection, cancel
+            // the selection key and close the channel.
+            key.cancel();
+            socketChannel.close();
+            return;
+        }
+
+        if (numRead == -1) {
+            // Remote entity shut the socket down cleanly. Do the
+            // same from our end and cancel the channel.
+            key.channel().close();
+            key.cancel();
+            return;
+        }
+
+        // Hand the data off to our worker thread
+        // TODO: we need to pass the data to actual forwarded host
+        // TODO: we need to be careful here with keeping array buffers
+        // TODO: consider using weak references for this purpose
+        this.worker.processData(this, socketChannel, this.readBuffer.array(), numRead);
     }
 
     private void accept(SelectionKey key) throws IOException {
