@@ -16,4 +16,8 @@ Basic GUI for remote manipulation of configuration
 
 Implement reliable storage for forwarding configuration
 
- 
+Move all socket interconnection to Java NIO.
+
+*1.1*
+
+Ensure scalability of the portforward apllication - adopt threading based on reactor pattern.
