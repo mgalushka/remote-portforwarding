@@ -6,6 +6,8 @@ import com.maximgalushka.portforward.mgmt.gui.*;
 import com.maximgalushka.portforward.mgmt.SessionMgmtMBean;
 import com.maximgalushka.portforward.utils.*;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -45,7 +47,7 @@ public class PortForwardingClient {
 
         } catch (Throwable e) {
             e.printStackTrace();
-            log.error("Client error ocurred: ", e);
+            log.error("Client error occurred: ", e);
         }
     }
 
@@ -60,6 +62,10 @@ public class PortForwardingClient {
         //Display the window
         frame.pack();
         frame.setVisible(true);
+
+        if(SystemTray.isSupported()){
+            TraySupport tray = new TraySupport();
+        }
     }
 
     public static GlobalProperties getGlobalProperties() {
