@@ -1,4 +1,4 @@
-package com.maximgalushka.portforward.sockets;
+package com.maximgalushka.listener;
 
 import javax.net.ServerSocketFactory;
 import java.io.BufferedInputStream;
@@ -25,7 +25,6 @@ public class SocketListenetTest {
 
             InetSocketAddress from = new InetSocketAddress(7777);
             serverSocket.bind(from);
-
 
             Socket socket = serverSocket.accept();
 

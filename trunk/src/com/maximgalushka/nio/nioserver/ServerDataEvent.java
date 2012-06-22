@@ -1,4 +1,4 @@
-package com.maximgalushka.nioserver;
+package com.maximgalushka.nio.nioserver;
 
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;

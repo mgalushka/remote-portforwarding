@@ -1,16 +1,15 @@
-package com.maximgalushka.nioserver;
+package com.maximgalushka.nio.nioserver;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * <p></p>
@@ -34,6 +33,12 @@ public class NioServer implements Runnable {
 
     // worker thread
     private ForwardWorker worker;
+
+    // A list of ChangeRequest instances
+    private final List<ChangeRequest> changeRequests = new LinkedList<ChangeRequest>();
+
+    // Maps a SocketChannel to a list of ByteBuffer instances
+    private final Map<SocketChannel, List<ByteBuffer>> pendingData = new HashMap<SocketChannel, List<ByteBuffer>>();
 
     public NioServer(InetAddress hostAddress, int port, ForwardWorker worker) throws IOException {
         this.hostAddress = hostAddress;
@@ -72,8 +77,23 @@ public class NioServer implements Runnable {
 
     @Override
     public void run() {
+        //noinspection InfiniteLoopStatement
         while (true) {
             try {
+                // Process any pending changes
+                synchronized(this.changeRequests) {
+                    Iterator changes = this.changeRequests.iterator();
+                    while (changes.hasNext()) {
+                        ChangeRequest change = (ChangeRequest) changes.next();
+                        switch(change.type) {
+                            case ChangeRequest.CHANGEOPS:
+                                SelectionKey key = change.socket.keyFor(this.selector);
+                                key.interestOps(change.ops);
+                        }
+                    }
+                    this.changeRequests.clear();
+                }
+
                 // Wait for an event one of the registered channels
                 this.selector.select();
 
@@ -92,12 +112,54 @@ public class NioServer implements Runnable {
                         this.accept(key);
                     } else if (key.isReadable()) {
                         this.read(key);
+                    } else if (key.isWritable()) {
+                        this.write(key);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void write(SelectionKey key) throws IOException {
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+
+        synchronized (this.pendingData) {
+            List<ByteBuffer> queue = this.pendingData.get(socketChannel);
+
+            // Write until there's not more data ...
+            while (!queue.isEmpty()) {
+                ByteBuffer buf = queue.get(0);
+                socketChannel.write(buf);
+                if (buf.remaining() > 0) {
+                    // ... or the socket's buffer fills up
+                    break;
+                }
+                queue.remove(0);
+            }
+
+            if (queue.isEmpty()) {
+                // We wrote away all data, so we're no longer interested
+                // in writing on this socket. Switch back to waiting for
+                // data.
+                key.interestOps(SelectionKey.OP_READ);
+            }
+        }
+    }
+
+    private void accept(SelectionKey key) throws IOException {
+        // For an accept to be pending the channel must be a server socket channel.
+        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
+
+        // Accept the connection and make it non-blocking
+        SocketChannel socketChannel = serverSocketChannel.accept();
+        /*Socket socket = */socketChannel.socket();
+        socketChannel.configureBlocking(false);
+
+        // Register the new SocketChannel with our Selector, indicating
+        // we'd like to be notified when there's data waiting to be read
+        socketChannel.register(this.selector, SelectionKey.OP_READ);
     }
 
     private void read(SelectionKey key) throws IOException {
@@ -133,18 +195,24 @@ public class NioServer implements Runnable {
         this.worker.processData(this, socketChannel, this.readBuffer.array(), numRead);
     }
 
-    private void accept(SelectionKey key) throws IOException {
-        // For an accept to be pending the channel must be a server socket channel.
-        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
+    public void send(SocketChannel socket, byte[] data) {
+        synchronized (this.changeRequests) {
+            // Indicate we want the interest ops set changed
+            this.changeRequests.add(new ChangeRequest(socket, ChangeRequest.CHANGEOPS, SelectionKey.OP_WRITE));
 
-        // Accept the connection and make it non-blocking
-        SocketChannel socketChannel = serverSocketChannel.accept();
-        Socket socket = socketChannel.socket();
-        socketChannel.configureBlocking(false);
+            // And queue the data we want written
+            synchronized (this.pendingData) {
+                List<ByteBuffer> queue = this.pendingData.get(socket);
+                if (queue == null) {
+                    queue = new ArrayList<ByteBuffer>();
+                    this.pendingData.put(socket, queue);
+                }
+                queue.add(ByteBuffer.wrap(data));
+            }
+        }
 
-        // Register the new SocketChannel with our Selector, indicating
-        // we'd like to be notified when there's data waiting to be read
-        socketChannel.register(this.selector, SelectionKey.OP_READ);
+        // Finally, wake up our selecting thread so it can make the required changes
+        this.selector.wakeup();
     }
 
 
