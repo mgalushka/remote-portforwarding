@@ -151,7 +151,9 @@ public class NioClient implements Runnable {
         this.handleResponse(socketChannel, this.readBuffer.array(), numRead);
     }
 
-    private void handleResponse(SocketChannel socketChannel, byte[] data, int numRead) throws IOException {
+    private void handleResponse(SocketChannel socketChannel, byte[] data, int numRead)
+            throws IOException {
+
         // Make a correctly sized copy of the data before handing it
         // to the client
         byte[] rspData = new byte[numRead];
