@@ -1,16 +1,18 @@
 package com.maximgalushka.nio.nioserver;
 
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
 import java.nio.channels.SocketChannel;
 
 public class ServerDataEvent {
 
-    protected DatagramChannel server;
-    protected ByteBuffer socket;
-    protected SocketAddress data;
+    protected NioServer server;
+    protected SocketChannel socket;
+    protected byte[] data;
 
     public ServerDataEvent(NioServer server, SocketChannel socket, byte[] dataCopy) {
+
+        this.server = server;
+        this.socket = socket;
+        this.data = dataCopy;
+
     }
 }
