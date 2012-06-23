@@ -69,7 +69,7 @@ public class NioServer implements Runnable {
     public static void main(String[] args) {
         try {
             ForwardWorker w = new ForwardWorker();
-            new Thread(new NioServer(null, 9090, w)).start();
+            new Thread(new NioServer(null, 5555, w)).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,10 +82,8 @@ public class NioServer implements Runnable {
             try {
                 // Process any pending changes
                 synchronized(this.changeRequests) {
-                    Iterator changes = this.changeRequests.iterator();
-                    while (changes.hasNext()) {
-                        ChangeRequest change = (ChangeRequest) changes.next();
-                        switch(change.type) {
+                    for (ChangeRequest change : this.changeRequests) {
+                        switch (change.type) {
                             case ChangeRequest.CHANGEOPS:
                                 SelectionKey key = change.socket.keyFor(this.selector);
                                 key.interestOps(change.ops);

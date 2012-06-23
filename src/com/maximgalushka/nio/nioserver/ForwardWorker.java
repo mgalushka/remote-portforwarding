@@ -36,9 +36,6 @@ public class ForwardWorker implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

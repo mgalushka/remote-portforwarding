@@ -1,4 +1,4 @@
-package com.maximgalushka.listener;
+package com.maximgalushka.portforward.sockets;
 
 import javax.net.ServerSocketFactory;
 import java.io.BufferedInputStream;
