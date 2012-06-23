@@ -1,1 +1,1 @@
-nohup java -cp google-portforward.jar:lib\commons-logging-1.1.1.jar org.enterprisepower.net.portforward.Forwarder &
+nohup java -cp target/remote-portforwarding-0.1-ALPHA.jar;target/dependency/* org.enterprisepower.net.portforward.Forwarder &
