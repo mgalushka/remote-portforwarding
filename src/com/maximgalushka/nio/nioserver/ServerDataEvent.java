@@ -8,7 +8,10 @@ public class ServerDataEvent {
     protected SocketChannel socket;
     protected byte[] data;
 
-    public ServerDataEvent(NioServer server, SocketChannel socket, byte[] dataCopy) {
+    public ServerDataEvent(NioServer server, SocketChannel socket, byte[] data) {
+        this.server = server;
+        this.socket = socket;
+        this.data = data;
 
         this.server = server;
         this.socket = socket;

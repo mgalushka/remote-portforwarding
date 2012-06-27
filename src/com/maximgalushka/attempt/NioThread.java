@@ -1,5 +1,6 @@
-package com.maximgalushka.nio.nioserver;
+package com.maximgalushka.attempt;
 
+import com.maximgalushka.nio.nioserver.ChangeRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -15,14 +16,14 @@ import java.nio.channels.spi.SelectorProvider;
 import java.util.*;
 
 /**
- * <p></p>
+ * <p>Represents all basic operations over the NIO forward logic</p>
  *
  * @author Maxim Galushka
- * @since 21.06.12
+ * @since 26.06.12
  */
-public class NioServer implements Runnable {
+public abstract class NioThread implements Runnable {
 
-    private static Log log = LogFactory.getLog(NioServer.class);
+    private static Log log = LogFactory.getLog(NioThread.class);
 
     // The host:port combination to listen on
     private InetAddress hostAddress;
@@ -38,7 +39,7 @@ public class NioServer implements Runnable {
     private ByteBuffer readBuffer = ByteBuffer.allocate(8192);
 
     // worker thread
-    private ForwardWorker worker;
+    private NioThread colleague;
 
     // A list of ChangeRequest instances
     private final List<ChangeRequest> changeRequests = new LinkedList<ChangeRequest>();
@@ -46,11 +47,21 @@ public class NioServer implements Runnable {
     // Maps a SocketChannel to a list of ByteBuffer instances
     private final Map<SocketChannel, List<ByteBuffer>> pendingData = new HashMap<SocketChannel, List<ByteBuffer>>();
 
-    public NioServer(InetAddress hostAddress, int port, ForwardWorker worker) throws IOException {
+
+    public NioThread(InetAddress hostAddress, int port,
+                      NioThread colleague) throws IOException {
+        this(hostAddress, port);
+        this.colleague = colleague;
+    }
+
+    public NioThread(InetAddress hostAddress, int port) throws IOException {
         this.hostAddress = hostAddress;
         this.port = port;
         this.selector = this.initSelector();
-        this.worker = worker;
+    }
+
+    public void setColleague(NioThread colleague) {
+        this.colleague = colleague;
     }
 
     private Selector initSelector() throws IOException {
@@ -70,61 +81,6 @@ public class NioServer implements Runnable {
         serverChannel.register(socketSelector, SelectionKey.OP_ACCEPT);
 
         return socketSelector;
-    }
-
-    public static void main(String[] args) {
-        try {
-            ForwardWorker w = new ForwardWorker();
-            new Thread(new NioServer(null, 5555, w)).start();
-            new Thread(w).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        //noinspection InfiniteLoopStatement
-        while (true) {
-            try {
-                // Process any pending changes
-                synchronized(this.changeRequests) {
-                    for (ChangeRequest change : this.changeRequests) {
-                        switch (change.type) {
-                            case ChangeRequest.CHANGEOPS:
-                                SelectionKey key = change.socket.keyFor(this.selector);
-                                key.interestOps(change.ops);
-                        }
-                    }
-                    this.changeRequests.clear();
-                }
-
-                // Wait for an event one of the registered channels
-                this.selector.select();
-
-                // Iterate over the set of keys for which events are available
-                Iterator selectedKeys = this.selector.selectedKeys().iterator();
-                while (selectedKeys.hasNext()) {
-                    SelectionKey key = (SelectionKey) selectedKeys.next();
-                    selectedKeys.remove();
-
-                    if (!key.isValid()) {
-                        continue;
-                    }
-
-                    // Check what event is available and deal with it
-                    if (key.isAcceptable()) {
-                        this.accept(key);
-                    } else if (key.isReadable()) {
-                        this.read(key);
-                    } else if (key.isWritable()) {
-                        this.write(key);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private void write(SelectionKey key) throws IOException {
@@ -153,6 +109,25 @@ public class NioServer implements Runnable {
                 key.interestOps(SelectionKey.OP_READ);
             }
         }
+    }
+
+    private SocketChannel initiateConnection() throws IOException {
+        // Create a non-blocking socket channel
+        SocketChannel socketChannel = SocketChannel.open();
+        socketChannel.configureBlocking(false);
+
+        // Kick off connection establishment
+        socketChannel.connect(new InetSocketAddress(this.hostAddress, this.port));
+
+        // Queue a channel registration since the caller is not the
+        // selecting thread. As part of the registration we'll register
+        // an interest in connection events. These are raised when a channel
+        // is ready to complete connection establishment.
+        synchronized(this.changeRequests) {
+            this.changeRequests.add(new ChangeRequest(socketChannel, ChangeRequest.REGISTER, SelectionKey.OP_CONNECT));
+        }
+
+        return socketChannel;
     }
 
     private void accept(SelectionKey key) throws IOException {
@@ -204,7 +179,7 @@ public class NioServer implements Runnable {
         // TODO: we need to pass the data to actual forwarded host
         // TODO: we need to be careful here with keeping array buffers
         // TODO: consider using weak references for this purpose
-        this.worker.processData(this, socketChannel, this.readBuffer.array(), numRead);
+        this.colleague.send(socketChannel, this.readBuffer.array());
     }
 
     public void send(SocketChannel socket, byte[] data) {
@@ -228,6 +203,7 @@ public class NioServer implements Runnable {
         // Finally, wake up our selecting thread so it can make the required changes
         this.selector.wakeup();
     }
+
 
 
 }
