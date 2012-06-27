@@ -33,7 +33,7 @@ public abstract class NioThread implements Runnable {
     private ServerSocketChannel serverChannel;
 
     // The selector we'll be monitoring
-    private Selector selector;
+    protected Selector selector;
 
     // The buffer into which we'll read data when it's available
     private ByteBuffer readBuffer = ByteBuffer.allocate(8192);
@@ -42,7 +42,7 @@ public abstract class NioThread implements Runnable {
     private NioThread colleague;
 
     // A list of ChangeRequest instances
-    private final List<ChangeRequest> changeRequests = new LinkedList<ChangeRequest>();
+    protected final List<ChangeRequest> changeRequests = new LinkedList<ChangeRequest>();
 
     // Maps a SocketChannel to a list of ByteBuffer instances
     private final Map<SocketChannel, List<ByteBuffer>> pendingData = new HashMap<SocketChannel, List<ByteBuffer>>();
@@ -64,7 +64,7 @@ public abstract class NioThread implements Runnable {
         this.colleague = colleague;
     }
 
-    private Selector initSelector() throws IOException {
+    protected Selector initSelector() throws IOException {
         // Create a new selector
         Selector socketSelector = SelectorProvider.provider().openSelector();
 
@@ -83,7 +83,7 @@ public abstract class NioThread implements Runnable {
         return socketSelector;
     }
 
-    private void write(SelectionKey key) throws IOException {
+    protected void write(SelectionKey key) throws IOException {
         log.debug(String.format("WRITE: [%d]", key.interestOps()));
 
         SocketChannel socketChannel = (SocketChannel) key.channel();
@@ -111,7 +111,7 @@ public abstract class NioThread implements Runnable {
         }
     }
 
-    private SocketChannel initiateConnection() throws IOException {
+    protected SocketChannel initiateConnection() throws IOException {
         // Create a non-blocking socket channel
         SocketChannel socketChannel = SocketChannel.open();
         socketChannel.configureBlocking(false);
@@ -130,7 +130,7 @@ public abstract class NioThread implements Runnable {
         return socketChannel;
     }
 
-    private void accept(SelectionKey key) throws IOException {
+    protected void accept(SelectionKey key) throws IOException {
 
         log.debug(String.format("ACCEPT: [%d]", key.interestOps()));
 
@@ -145,9 +145,12 @@ public abstract class NioThread implements Runnable {
         // Register the new SocketChannel with our Selector, indicating
         // we'd like to be notified when there's data waiting to be read
         socketChannel.register(this.selector, SelectionKey.OP_READ);
+
+        // Tell partner thread to initiate connection with forwarded server.
+        this.colleague.initiateConnection();
     }
 
-    private void read(SelectionKey key) throws IOException {
+    protected void read(SelectionKey key) throws IOException {
         log.debug(String.format("READ: [%d]", key.interestOps()));
 
         SocketChannel socketChannel = (SocketChannel) key.channel();
@@ -182,7 +185,7 @@ public abstract class NioThread implements Runnable {
         this.colleague.send(socketChannel, this.readBuffer.array());
     }
 
-    public void send(SocketChannel socket, byte[] data) {
+    protected void send(SocketChannel socket, byte[] data) {
         log.debug(String.format("SEND: [%d]", socket.validOps()));
 
         synchronized (this.changeRequests) {
@@ -202,6 +205,24 @@ public abstract class NioThread implements Runnable {
 
         // Finally, wake up our selecting thread so it can make the required changes
         this.selector.wakeup();
+    }
+
+    protected void finishConnection(SelectionKey key) throws IOException {
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+
+        // Finish the connection. If the connection operation failed
+        // this will raise an IOException.
+        try {
+            socketChannel.finishConnect();
+        } catch (IOException e) {
+            // Cancel the channel's registration with our selector
+            log.error(e);
+            key.cancel();
+            return;
+        }
+
+        // Register an interest in writing on this channel
+        key.interestOps(SelectionKey.OP_WRITE);
     }
 
 
