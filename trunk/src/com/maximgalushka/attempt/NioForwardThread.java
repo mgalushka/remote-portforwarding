@@ -8,18 +8,18 @@ import java.nio.channels.SelectionKey;
 import java.util.Iterator;
 
 /**
- * <p>Main thread which accepts client connections</p>
+ * <p>Forward thread which forwards content to remote server and back</p>
  *
  * @author Maxim Galushka
  * @since 27.06.12
  */
-public class NioClientThread extends NioThread {
+public class NioForwardThread extends NioThread {
 
-    protected NioClientThread(InetAddress hostAddress, int port, NioThread colleague) throws IOException {
-        super(hostAddress, port, colleague);
+    public NioForwardThread(InetAddress hostAddress, int port, NioThread main) throws IOException {
+        super(hostAddress, port, main);
     }
 
-    public NioClientThread(InetAddress hostAddress, int port) throws IOException {
+    protected NioForwardThread(InetAddress hostAddress, int port) throws IOException {
         super(hostAddress, port);
     }
 
@@ -29,12 +29,16 @@ public class NioClientThread extends NioThread {
         while (true) {
             try {
                 // Process any pending changes
-                synchronized(this.changeRequests) {
-                    for (ChangeRequest change : this.changeRequests) {
+                synchronized (this.changeRequests) {
+                   for(ChangeRequest change : this.changeRequests) {
                         switch (change.type) {
                             case ChangeRequest.CHANGEOPS:
                                 SelectionKey key = change.socket.keyFor(this.selector);
                                 key.interestOps(change.ops);
+                                break;
+                            case ChangeRequest.REGISTER:
+                                change.socket.register(this.selector, change.ops);
+                                break;
                         }
                     }
                     this.changeRequests.clear();
@@ -44,9 +48,9 @@ public class NioClientThread extends NioThread {
                 this.selector.select();
 
                 // Iterate over the set of keys for which events are available
-                Iterator selectedKeys = this.selector.selectedKeys().iterator();
+                Iterator<SelectionKey> selectedKeys = this.selector.selectedKeys().iterator();
                 while (selectedKeys.hasNext()) {
-                    SelectionKey key = (SelectionKey) selectedKeys.next();
+                    SelectionKey key = selectedKeys.next();
                     selectedKeys.remove();
 
                     if (!key.isValid()) {
@@ -54,8 +58,8 @@ public class NioClientThread extends NioThread {
                     }
 
                     // Check what event is available and deal with it
-                    if (key.isAcceptable()) {
-                        this.accept(key);
+                    if (key.isConnectable()) {
+                        this.finishConnection(key);
                     } else if (key.isReadable()) {
                         this.read(key);
                     } else if (key.isWritable()) {
@@ -67,4 +71,6 @@ public class NioClientThread extends NioThread {
             }
         }
     }
+
+
 }
