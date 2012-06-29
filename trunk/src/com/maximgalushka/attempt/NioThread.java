@@ -1,5 +1,6 @@
 package com.maximgalushka.attempt;
 
+import com.maximgalushka.attempt.commands.Event;
 import com.maximgalushka.nio.nioserver.ChangeRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,6 +15,8 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>Represents all basic operations over the NIO forward logic</p>
@@ -21,7 +24,7 @@ import java.util.*;
  * @author Maxim Galushka
  * @since 26.06.12
  */
-public abstract class NioThread implements Runnable {
+public abstract class NioThread implements Runnable, NioOperation {
 
     private static Log log = LogFactory.getLog(NioThread.class);
 
@@ -39,13 +42,15 @@ public abstract class NioThread implements Runnable {
     private ByteBuffer readBuffer = ByteBuffer.allocate(8192);
 
     // worker thread
-    private NioThread colleague;
+    protected NioThread colleague;
 
     // A list of ChangeRequest instances
     protected final List<ChangeRequest> changeRequests = new LinkedList<ChangeRequest>();
 
+    private final BlockingQueue<Event> events = new ArrayBlockingQueue<Event>(100);
+
     // Maps a SocketChannel to a list of ByteBuffer instances
-    private final Map<SocketChannel, List<ByteBuffer>> pendingData = new HashMap<SocketChannel, List<ByteBuffer>>();
+    protected final Map<SocketChannel, List<ByteBuffer>> pendingData = new HashMap<SocketChannel, List<ByteBuffer>>();
 
 
     public NioThread(InetAddress hostAddress, int port,
@@ -83,7 +88,7 @@ public abstract class NioThread implements Runnable {
         return socketSelector;
     }
 
-    protected void write(SelectionKey key) throws IOException {
+    public void write(SelectionKey key) throws IOException {
         log.debug(String.format("WRITE: [%d]", key.interestOps()));
 
         SocketChannel socketChannel = (SocketChannel) key.channel();
@@ -111,7 +116,88 @@ public abstract class NioThread implements Runnable {
         }
     }
 
-    protected SocketChannel initiateConnection() throws IOException {
+
+
+    public void accept(SelectionKey key) throws IOException {
+
+        log.debug(String.format("ACCEPT: [%d]", key.interestOps()));
+
+        // For an accept to be pending the channel must be a server socket channel.
+        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
+
+        // Accept the connection and make it non-blocking
+        SocketChannel socketChannel = serverSocketChannel.accept();
+        /*Socket socket = */socketChannel.socket();
+        socketChannel.configureBlocking(false);
+
+        // Register the new SocketChannel with our Selector, indicating
+        // we'd like to be notified when there's data waiting to be read
+        socketChannel.register(this.selector, SelectionKey.OP_READ);
+
+        // Tell partner thread to initiate connection with forwarded server.
+        //this.colleague.initiateConnection();
+    }
+
+    @Override
+    public void connect(SelectionKey key) throws InterruptedException {
+
+    }
+
+    /**
+     * Blocking method!
+     *
+     * @param event to put into queue for execution
+     * @throws InterruptedException
+     */
+    @Override
+    public void push(Event event) throws InterruptedException {
+        synchronized (events){
+            events.put(event);
+        }
+    }
+
+    public ByteBuffer read(SelectionKey key) throws IOException, InterruptedException {
+        log.debug(String.format("READ: [%d]", key.interestOps()));
+
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+
+        // Clear out our read buffer so it's ready for new data
+
+        // TODO: consider simple reuse - what about multithreading????
+        ByteBuffer buffer = ByteBuffer.allocate(8192); //this.readBuffer.clear();
+
+        // Attempt to read off the channel
+        int numRead;
+        try {
+            numRead = socketChannel.read(this.readBuffer);
+        } catch (IOException e) {
+            // The remote forcibly closed the connection, cancel
+            // the selection key and close the channel.
+            key.cancel();
+            socketChannel.close();
+            return null;
+        }
+
+        if (numRead == -1) {
+            // Remote entity shut the socket down cleanly. Do the
+            // same from our end and cancel the channel.
+            key.channel().close();
+            key.cancel();
+            return readBuffer;
+        }
+
+        // Hand the data off to our worker thread
+        // TODO: we need to pass the data to actual forwarded host
+        // TODO: we need to be careful here with keeping array buffers
+        // TODO: consider using weak references for this purpose
+        //this.colleague.send(socketChannel, this.readBuffer.array());
+
+        // TODO: very dangerous unsafe leak!!!
+        return readBuffer;
+    }
+
+
+    protected SocketChannel connect() throws IOException {
         // Create a non-blocking socket channel
         SocketChannel socketChannel = SocketChannel.open();
         socketChannel.configureBlocking(false);
@@ -130,84 +216,8 @@ public abstract class NioThread implements Runnable {
         return socketChannel;
     }
 
-    protected void accept(SelectionKey key) throws IOException {
 
-        log.debug(String.format("ACCEPT: [%d]", key.interestOps()));
-
-        // For an accept to be pending the channel must be a server socket channel.
-        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
-
-        // Accept the connection and make it non-blocking
-        SocketChannel socketChannel = serverSocketChannel.accept();
-        /*Socket socket = */socketChannel.socket();
-        socketChannel.configureBlocking(false);
-
-        // Register the new SocketChannel with our Selector, indicating
-        // we'd like to be notified when there's data waiting to be read
-        socketChannel.register(this.selector, SelectionKey.OP_READ);
-
-        // Tell partner thread to initiate connection with forwarded server.
-        this.colleague.initiateConnection();
-    }
-
-    protected void read(SelectionKey key) throws IOException {
-        log.debug(String.format("READ: [%d]", key.interestOps()));
-
-        SocketChannel socketChannel = (SocketChannel) key.channel();
-
-        // Clear out our read buffer so it's ready for new data
-        this.readBuffer.clear();
-
-        // Attempt to read off the channel
-        int numRead;
-        try {
-            numRead = socketChannel.read(this.readBuffer);
-        } catch (IOException e) {
-            // The remote forcibly closed the connection, cancel
-            // the selection key and close the channel.
-            key.cancel();
-            socketChannel.close();
-            return;
-        }
-
-        if (numRead == -1) {
-            // Remote entity shut the socket down cleanly. Do the
-            // same from our end and cancel the channel.
-            key.channel().close();
-            key.cancel();
-            return;
-        }
-
-        // Hand the data off to our worker thread
-        // TODO: we need to pass the data to actual forwarded host
-        // TODO: we need to be careful here with keeping array buffers
-        // TODO: consider using weak references for this purpose
-        this.colleague.send(socketChannel, this.readBuffer.array());
-    }
-
-    protected void send(SocketChannel socket, byte[] data) {
-        log.debug(String.format("SEND: [%d]", socket.validOps()));
-
-        synchronized (this.changeRequests) {
-            // Indicate we want the interest ops set changed
-            this.changeRequests.add(new ChangeRequest(socket, ChangeRequest.CHANGEOPS, SelectionKey.OP_WRITE));
-
-            // And queue the data we want written
-            synchronized (this.pendingData) {
-                List<ByteBuffer> queue = this.pendingData.get(socket);
-                if (queue == null) {
-                    queue = new ArrayList<ByteBuffer>();
-                    this.pendingData.put(socket, queue);
-                }
-                queue.add(ByteBuffer.wrap(data));
-            }
-        }
-
-        // Finally, wake up our selecting thread so it can make the required changes
-        this.selector.wakeup();
-    }
-
-    protected void finishConnection(SelectionKey key) throws IOException {
+    protected void close(SelectionKey key) throws IOException {
         SocketChannel socketChannel = (SocketChannel) key.channel();
 
         // Finish the connection. If the connection operation failed
