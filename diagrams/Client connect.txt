@@ -1,0 +1,14 @@
+title Client connect procedure
+
+Client
+ClientThread
+ForwardThread
+Target
+
+
+Client->ClientThread: connect
+ClientThread->ClientThread: accept()
+ClientThread->ForwardThread: push(CONNECT)
+ForwardThread->Target: connect()
+
+
