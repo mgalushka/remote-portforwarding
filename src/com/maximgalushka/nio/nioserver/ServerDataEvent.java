@@ -15,7 +15,7 @@ public class ServerDataEvent {
 
         this.server = server;
         this.socket = socket;
-        this.data = dataCopy;
+        this.data = data;
 
     }
 }
